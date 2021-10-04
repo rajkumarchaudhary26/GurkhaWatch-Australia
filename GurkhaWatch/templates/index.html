@@ -84,10 +84,10 @@
             <img src="{{best_selling_product.image.url}}" alt="Watch"
               class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
           </a>
-          <p class="text-golden text-center text-xs">{{best_selling_product.product_name}}</p>
+          <p class="text-golden text-center text-xs">{{best_selling_product.product_name|upper}}</p>
           <p class="text-secondary text-center text-sm">{{best_selling_product.product_name|upper}}</p>
           <div class="h-0.5 my-1 bg-secondary2"></div>
-          <p class="text-secondary text-center text-sm">{{best_selling_product.price}}</p>
+          <p class="text-secondary text-center text-sm">AU ${{best_selling_product.price}}</p>
         </div>
       </div>
       {% endfor %}
