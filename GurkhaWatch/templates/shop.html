@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Our Shop - Gurkha Watch</title>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary2 text-secondary">
+    <div class="max-w-screen-2xl mx-auto px-4 py-20 flex space-x-24">
+        <div>
+            {% include "partials/categories.html" with categories=categories %}
+        </div>
+        <div class="flex-1">
+            <div class="mb-8 flex justify-between items-center">
+                <span class="text-sm text-secondary3">Showing 1-12 of 55</span>
+                <select name="sorting"
+                    class="px-3 py-1 bg-primary5 text-sm rounded-md focus:outline-none cursor-pointer"
+                    style="padding-inline-end: 1rem;">
+                    <option selected>Relevance</option>
+                    <option>Sort by popularity</option>
+                    <option>Sort by average rating</option>
+                    <option>Sort by latest</option>
+                    <option>Sort by price: low to high</option>
+                    <option>Sort by price high to low</option>
+                </select>
+            </div>
+            <div class="grid gap-16 grid-cols-3">
+                {% for product in products %}
+                <div class="relative">
+                    <span
+                        class="px-1.5 py-0.5 absolute top-0 left-0 text-xs transform -translate-x-1 -translate-y-1/2 bg-red-500 rounded-md"
+                        style="z-index: 100;">
+                        20% OFF
+                    </span>
+                    <a href="#!" class="h-80 mb-2 block overflow-hidden">
+                        <img src="/static/images/g200.jpg" alt="Watch"
+                            class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
+                    </a>
+                    <p class="text-golden text-center text-xs">G200-MIX EDITION</p>
+                    <p class="text-secondary text-center text-sm">G200-MIX EDITION</p>
+                    <div class="h-0.5 my-1 bg-secondary2"></div>
+                    <p class="text-secondary text-center text-sm">AU $170</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="mt-16 flex justify-center items-center">
+                <a href="#!" class="px-2 bg-secondary rounded-md">
+                    <i class="fas fa-angle-left text-primary"></i>
+                </a>
+                <form>
+                    <input type="number" value="1"
+                        class="min mx-3 py-1 font-bold text-sm text-center bg-transparent outline-none border border-secondary rounded-md transition-all duration-200"
+                        id="current-page" />
+                </form>
+                <span class="font-bold">/</span>
+                <span class="mx-3 font-bold text-sm">50</span>
+                <a href="#!" class="px-2 bg-secondary rounded-md">
+                    <i class="fas fa-angle-right text-primary"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script type="text/javascript">
+    function resizeInput(element) {
+        element.style.width = (element.value.length + 3) + "ch";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var currentPage = document.getElementById("current-page");
+        var events = "keyup,keypress,focus,blur,change".split(",");
+        for (var i in events) {
+            currentPage.addEventListener(events[i], function() {
+                return resizeInput(currentPage);
+            });
+        }
+        resizeInput(currentPage);
+    });
+</script>
+{% endblock scripts %}

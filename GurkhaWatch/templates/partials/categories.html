@@ -1,0 +1,8 @@
+<h3 class="mb-3 font-bold">PRODUCT CATEGORIES</h3>
+<div class="product-category px-3 bg-primary5 rounded-lg">
+  {% for category in categories %}
+  <a href="#!" class="p-3 block text-sm{% if not forloop.last %} border-b-2 border-primary{% endif %}">
+    <p>{{category.title}} ({{category.count}})</p>
+  </a>
+  {% endfor %}
+</div>

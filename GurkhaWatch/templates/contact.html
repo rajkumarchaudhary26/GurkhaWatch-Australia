@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Contact Us - Gurkha Watch</title>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary text-secondary">
+    <div class="max-w-screen-2xl mx-auto px-4 py-12">
+        <p class="mb-1 text-xl font-bold text-center">Contact Us</p>
+        <p class="text-sm text-secondary3 text-center">Have a question or inquiry? Leave us a message.</p>
+    </div>
+    <div class="max-w-screen-2xl mx-auto px-4 pb-16 flex space-x-8">
+        <div class="px-16 py-20 flex-grow bg-primary3 rounded-3xl">
+            <div class="mb-10">
+                <p class="mb-2.5 font-bold">United Kingdom</p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-phone-alt"></i>
+                    1252 444385
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-map-marker-alt"></i>
+                    Unite 5, 92 Victoria Road, Aldershow, GU111sss
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-envelope"></i>
+                    info@gurkhawatch.com
+                </p>
+            </div>
+            <div class="mb-10">
+                <p class="mb-2.5 font-bold">Nepal</p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-phone-alt"></i>
+                    +977-1-4248861
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-map-marker-alt"></i>
+                    New Road, Kathmandu, Nepal
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-envelope"></i>
+                    info@gurkhawatch.com
+                </p>
+            </div>
+            <div class="mb-16">
+                <p class="mb-2.5 font-bold">Australia</p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-phone-alt"></i>
+                    0450747042 / 0431520090
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-map-marker-alt"></i>
+                    Level 1, 276 Liverpool Rd. Ashfield, Sydney
+                </p>
+                <p class="mb-1 text-sm">
+                    <i class="mr-1.5 fas fa-envelope"></i>
+                    info@gurkhawatch.com
+                </p>
+            </div>
+            <div class="flex space-x-1">
+                <a href="https://facebook.com/Gurkhawatch" target="_blank" rel="noreferrer" class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x text-primary"></i>
+                </a>
+                <a href="https://instagram.com/gurkha_watch" target="_blank" rel="noreferrer" class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x text-primary"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UCVGGHRbhR2A24-jKA9FVOmQ" target="_blank" rel="noreferrer" class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-youtube fa-stack-1x text-primary"></i>
+                </a>
+            </div>
+        </div>
+        <form class="mt-8 text-sm flex-grow">
+            <div class="mb-4 flex space-x-8">
+                <div class="flex flex-col flex-1">
+                    <label class="mb-1">First Name</label>
+                    <input type="text" placeholder="First Name"
+                        class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+                </div>
+                <div class="flex flex-col flex-1">
+                    <label class="mb-1">Last Name</label>
+                    <input type="text" placeholder="Last Name"
+                        class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+                </div>
+            </div>
+            <div class="mb-4 flex flex-col">
+                <label class="mb-1">E-mail</label>
+                <input type="email" placeholder="E-mail"
+                    class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            </div>
+            <div class="mb-4 flex flex-col">
+                <label class="mb-1">Subject</label>
+                <input type="text" placeholder="Subject"
+                    class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            </div>
+            <div class="mb-4 flex flex-col">
+                <label class="mb-1">Message</label>
+                <textarea rows="6" placeholder="Message"
+                    class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"></textarea>
+            </div>
+            <div class="mt-8 flex justify-end">
+              <button type="submit" class="py-2 px-6 bg-primary3 text-secondary2 rounded-lg">
+                Send Message
+              </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
