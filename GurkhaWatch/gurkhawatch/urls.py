@@ -13,19 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.urls.conf import include
 from gurkhawatch import settings
 from django.contrib import admin
-from django.urls import path
-from . import views
+from django.urls import path, include
+from . import views as gurkhawatch_views
+from shop import views as shop_views
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('blog/', views.blog, name='blog'),
-    path('contact/', views.contact, name='contact'),
-    path('shop/', views.shop, name='shop'),
-    path('product-category/<slug:slug>/', views.category, name='category')
+    path('', gurkhawatch_views.home, name='home'),
+    path('about/', gurkhawatch_views.about, name='about'),
+    path('blog/', gurkhawatch_views.blog, name='blog'),
+    path('contact/', gurkhawatch_views.contact, name='contact'),
+    path('shop/', shop_views.shop, name='shop'),
+    path('product-category/<slug:category_slug>/', shop_views.shop, name='products_by_category'),
+    path('product/<slug:product_slug>/', shop_views.product_detail, name='product_detail'),
+    path('search/', shop_views.search, name='search'),
+    path('my-account/', include('accounts.urls')),
+
+    # path('product-category/<slug:slug>/', gurkhawatch_views.category, name='category')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "GurkhaWatch Admin"
+admin.site.site_title = "GurkhaWatch Admin Portal"
+admin.site.index_title = "Welcome to GurkhaWatch Portal"

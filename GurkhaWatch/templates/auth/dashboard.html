@@ -1,0 +1,64 @@
+{% extends "../base.html" %}
+
+{% block head %}
+<title>Login - Gurkha Watch</title>
+{% endblock head %}
+
+{% block content %}
+{% if request.GET.command == 'verification' %}
+Thank you for registering. Please check your email for verification. [{{request.GET.email}}]<br><br>
+Already verified?<a href="{% url 'login' %}">Login</a>
+{% else %}
+<div class="bg-primary text-secondary">
+    <div class="max-w-xl mx-auto px-4 pt-8 pb-12">
+        <p class="pb-6 text-xl font-bold text-center">Login</p>
+        {% include 'includes/alerts.html' %}
+        <form action="{% url 'login' %}" method="POST" class="max-w-3xl mx-auto p-6 bg-primary3 rounded-xl text-sm">
+            {% csrf_token %}
+            <div class="mb-4 flex flex-col space-y-4">
+                <div class="flex flex-col flex-1">
+                    <label class="mb-1">Email</label>
+                    <input type="email" placeholder="Email" required
+                        class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"
+                        name="email" />
+                </div>
+                <div class="flex flex-col flex-1">
+                    <label class="mb-1">Password</label>
+                    <div class="relative">
+                        <input type="password" placeholder="Password" required id="password"
+                            class="w-full py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"
+                            name="password" />
+                        <i id="toggle" class="fas fa-eye absolute top-2 right-2 cursor-pointer"
+                            onclick="toggleShowPassword()"></i>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit"
+                    class="mt-5 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary rounded-md font-bold">Login</button>
+                <span class="mt-2 inline-block text-green-800 hover:underline">Don't have an account? Go To <a
+                        href="{% url 'register' %}">Register</a></span>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block scripts %}
+<script type="text/javascript">
+    var password = document.getElementById("password");
+    var toggle = document.getElementById("toggle");
+
+    function toggleShowPassword() {
+        toggle.classList.toggle("fa-eye");
+        toggle.classList.toggle("fa-eye-slash");
+
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    }
+</script>
+{% endblock scripts %}

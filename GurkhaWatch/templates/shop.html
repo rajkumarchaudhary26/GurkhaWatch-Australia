@@ -23,7 +23,8 @@
         </div>
         <div class="flex-1">
             <div class="mb-8 flex justify-between items-center">
-                <span class="text-sm text-secondary3">Showing 1-12 of 55</span>
+                <!-- <span class="text-sm text-secondary3">Showing 1-12 of 55</span> -->
+                <span class="text-sm text-secondary3">{{product_count}} items found</span>
                 <select name="sorting"
                     class="px-3 py-1 bg-primary5 text-sm rounded-md focus:outline-none cursor-pointer"
                     style="padding-inline-end: 1rem;">
@@ -36,6 +37,7 @@
                 </select>
             </div>
             <div class="grid gap-16 grid-cols-3">
+                {% if products %}
                 {% for product in products %}
                 <div class="relative">
                     <span
@@ -43,21 +45,39 @@
                         style="z-index: 100;">
                         20% OFF
                     </span>
-                    <a href="#!" class="h-80 mb-2 block overflow-hidden">
-                        <img src="/static/images/g200.jpg" alt="Watch"
+
+                    <a href="{{product.get_url}}" class="h-80 mb-2 block overflow-hidden">
+                        <img src="{{product.image.url}}" alt="{{product.product_name}}"
                             class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
                     </a>
-                    <p class="text-golden text-center text-xs">G200-MIX EDITION</p>
-                    <p class="text-secondary text-center text-sm">G200-MIX EDITION</p>
+                    {% comment %}
+                    <p class="text-golden text-center text-xs">{{product.product_name|upper}}</p>
+                    {% endcomment %}
+                    <a href="{{product.get_url}}"
+                        class="text-golden text-center text-xs">{{product.product_name|upper}}</a><br>
+                    <a href="{{product.get_url}}"
+                        class="text-secondary text-center text-sm">{{product.product_name|upper}}</a>
                     <div class="h-0.5 my-1 bg-secondary2"></div>
-                    <p class="text-secondary text-center text-sm">AU $170</p>
+                    <p class="text-secondary text-center text-sm">AUD {{product.price}}</p>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div>
+                    <h2>Please try again.</h2>
+                </div>
+                {% endif %}
             </div>
+            {% if products.has_other_pages %}
             <div class="mt-16 flex justify-center items-center">
-                <a href="#!" class="px-2 bg-secondary rounded-md">
+                {% if products.has_previous %}
+                <a href="?page={{products.previous_page_number}}" class="px-2 bg-secondary rounded-md">
                     <i class="fas fa-angle-left text-primary"></i>
                 </a>
+                {% else %}
+                <a href="#" class="px-2 bg-secondary rounded-md">
+                    <i class="fas fa-angle-left text-primary"></i>
+                </a>
+                {% endif %}
                 <form>
                     <input type="number" value="1"
                         class="min mx-3 py-1 font-bold text-sm text-center bg-transparent outline-none border border-secondary rounded-md transition-all duration-200"
@@ -65,10 +85,17 @@
                 </form>
                 <span class="font-bold">/</span>
                 <span class="mx-3 font-bold text-sm">50</span>
+                {% if products.has_next %}
+                <a href="?page={{products.next_page_number}}" class="px-2 bg-secondary rounded-md">
+                    <i class="fas fa-angle-right text-primary"></i>
+                </a>
+                {% else %}
                 <a href="#!" class="px-2 bg-secondary rounded-md">
                     <i class="fas fa-angle-right text-primary"></i>
                 </a>
+                {% endif %}
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -84,7 +111,7 @@
         var currentPage = document.getElementById("current-page");
         var events = "keyup,keypress,focus,blur,change".split(",");
         for (var i in events) {
-            currentPage.addEventListener(events[i], function() {
+            currentPage.addEventListener(events[i], function () {
                 return resizeInput(currentPage);
             });
         }

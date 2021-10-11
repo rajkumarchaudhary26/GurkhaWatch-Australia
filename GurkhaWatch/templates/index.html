@@ -50,8 +50,10 @@
       {% for collection in collections %}
       <div class="px-3">
         <a href="#!" class="h-72 overflow-hidden block relative">
+          {% if collection.category_image %}
           <img src="{{collection.category_image.url}}" alt="{{collection.category_name}}"
             class="h-full w-full object-cover transform hover:scale-110 transition duration-700" />
+          {% endif %}
           <div class="absolute bottom-4 left-4 font-jura text-secondary">
             <h2 class="text-xl font-semibold">{{collection.category_name|upper}}</h2>
             <p class="text-sm text-secondary2">12 ITEMS</p>

@@ -1,0 +1,83 @@
+{% extends "../base.html" %}
+
+{% block head %}
+<title>Register - Gurkha Watch</title>
+{% endblock head %}
+
+{% block content %}
+{% include 'includes/alerts.html' %}
+<form action="{% url 'register' %}" method="POST">
+  {% csrf_token %}
+
+  <div class="bg-primary text-secondary">
+    <div class="max-w-screen-2xl mx-auto px-4 pt-8 pb-12">
+      <p class="pb-6 text-xl font-bold text-center">Register</p>
+      <form class="max-w-3xl mx-auto p-6 bg-primary3 rounded-xl text-sm">
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">First Name</label>
+            {{form.first_name}}
+            {% comment %}
+            <input type="text" placeholder="First Name"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Last Name</label>
+            {{form.last_name}}
+            {% comment %}
+            <input type="text" placeholder="Last Name"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Email</label>
+            {{form.email}}
+            {% comment %}
+            <input type="email" placeholder="Email"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Mobile Number</label>
+            {{form.phone_number}}
+            {% comment %}
+            <input type="text" placeholder="Mobile Number"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Password</label>
+            {{form.password}}
+            {% comment %}
+            <input type="password" placeholder="Password"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Confirm Password</label>
+            {{form.confirm_password}}
+            {% comment %}
+            <input type="text" placeholder="Confirm Password"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {% endcomment %}
+          </div>
+        </div>
+        <div>
+          <button type="submit"
+            class="mt-5 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary rounded-md font-bold">Register</button>
+          {{form.email.errors}}
+          {{form.non_field_errors}}
+          <span class="mt-2 inline-block text-green-800 hover:underline"> Already have an account?
+            Go to
+            <a href="{% url 'login' %}">Login</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</form>
+{% endblock content %}

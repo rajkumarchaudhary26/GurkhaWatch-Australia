@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Cart - Gurkha Watch</title>
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  #cart-table th,
+  #cart-table td {
+    width: calc(100% / 3);
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  #order-table th,
+  #order-table td {
+    padding: 0.5rem;
+  }
+
+  #order-table tr:first-child td {
+    padding-top: 1rem;
+  }
+
+  #order-table tr:last-child td {
+    padding-bottom: 1rem;
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary text-secondary">
+  <div class="max-w-screen-xl mx-auto px-4 pt-8 pb-12">
+    <p class="pb-6 text-xl font-bold text-center">MY CART</p>
+    <div class="md:flex md:space-x-12">
+      <table id="cart-table" class="w-full border-collapse" style="flex: 2;">
+        <thead>
+          <tr class="border-b border-secondary2">
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm">
+          {% for i in "12345" %}
+          <tr class="border-b border-secondary2">
+            <td class="flex justify-center items-center space-x-4" style="width: 100%;">
+              <div style="min-width: 50px; max-width: 100px;">
+                <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch"
+                  class="h-full w-full object-contain" />
+              </div>
+              <p>Urban Chrono Green Dial</p>
+            </td>
+            <td>
+              <form>
+                <div class="flex justify-center items-center">
+                  <button type="submit" class="text-xl font-bold">-</button>
+                  <input type="number" step="1" value="1"
+                    class="w-8 mx-1.5 py-0.5 text-center bg-primary text-secondary border border-secondary outline-none rounded-md" />
+                  <button type="submit" class="text-xl font-bold">+</button>
+                </div>
+                <div class="mt-2 flex justify-center items-center">
+                  <button type="submit" class="px-1 text-xs border border-secondary rounded-sm">REMOVE</button>
+                </div>
+              </form>
+            </td>
+            <td>
+              $150
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div style="flex: 1;">
+        <table id="order-table" class="w-full mt-10 md:mt-0 border-collapse">
+          <thead>
+            <tr class="border-b border-secondary2">
+              <th colspan="2">ORDER SUMMARY</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr>
+              <td>
+                Order Total (2 Items)
+              </td>
+              <td>
+                $100
+              </td>
+            </tr>
+            <tr class="border-b border-secondary2">
+              <td>
+                Shipping
+              </td>
+              <td>
+                $0
+              </td>
+            </tr>
+          </tbody>
+          <tfoot class="text-sm font-bold">
+            <tr>
+              <td>Total</td>
+              <td>$200</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="flex justify-center space-x-1.5">
+          <i class="fab fa-cc-visa fa-2x"></i>
+          <i class="fab fa-cc-paypal fa-2x"></i>
+          <i class="fab fa-cc-mastercard fa-2x"></i>
+          <i class="fab fa-cc-amex fa-2x"></i>
+        </div>
+        <a href="/checkout" class="w-full mt-4 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary text-center rounded-md font-bold">
+          Proceed To Checkout
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

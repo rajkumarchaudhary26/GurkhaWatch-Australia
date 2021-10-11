@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Make Payment - Gurkha Watch</title>
+<style>
+  #cart-table th,
+  #cart-table td {
+    width: calc(100% / 3);
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  #order-table th,
+  #order-table td {
+    padding: 0.5rem;
+  }
+
+  #order-table tr:first-child td {
+    padding-top: 1rem;
+  }
+
+  #order-table tr:last-child td {
+    padding-bottom: 1rem;
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary text-secondary">
+  <p class="max-w-screen-2xl mx-auto px-4 pt-8 pb-12 text-xl font-bold text-center">MAKE PAYMENT</p>
+  <div class="max-w-screen-2xl mx-auto px-4 pb-8 lg:flex lg:space-x-12">
+    <div style="flex: 2;">
+      <div class="p-6 bg-primary3 rounded-3xl">
+        <p class="mb-2 pb-0.5 text-lg font-bold border-b border-secondary2">BILLING DETAILS</p>
+        <div>
+          <p>John Doe</p>
+          <p>Address Line 1</p>
+          <p>Address Line 2</p>
+          <p>City, State</p>
+          <p>Country</p>
+          <p>john@example.com</p>
+          <p>+977 9876543210</p>
+        </div>
+        <p class="mt-4 pb-0 5 text-lg font-bold border-b border-secondary2">ORDERED PRODUCTS</p>
+        <table id="cart-table" class="w-full border-collapse" style="flex: 2;">
+          <thead>
+            <tr class="border-b border-secondary2">
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            {% for i in "123" %}
+            <tr class="border-b border-secondary2">
+              <td class="w-full flex justify-center items-center space-x-4" style="width: 100%;">
+                <div style="min-width: 50px; max-width: 100px;">
+                  <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch"
+                    class="h-full w-full object-contain" />
+                </div>
+                <p>Urban Chrono Green Dial</p>
+              </td>
+              <td>
+                2
+              </td>
+              <td>
+                $150
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mt-6 p-6 lg:mt-0 bg-primary3 rounded-3xl" style="flex: 1;">
+      <p class="pb-0.5 text-lg font-bold border-b border-secondary2">ORDER SUMMARY</p>
+      <table id="order-table" class="w-full border-collapse">
+        <tbody class="text-sm">
+          <tr>
+            <td>
+              Order Total (2 Items)
+            </td>
+            <td>
+              $100
+            </td>
+          </tr>
+          <tr class="border-b border-secondary2">
+            <td>
+              Shipping
+            </td>
+            <td>
+              $0
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="text-sm font-bold">
+          <tr>
+            <td>Total</td>
+            <td>$250</td>
+          </tr>
+        </tfoot>
+      </table>
+      <button
+        class="w-full mt-2 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary text-center rounded-md font-bold">
+        Pay with Card
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock content %}

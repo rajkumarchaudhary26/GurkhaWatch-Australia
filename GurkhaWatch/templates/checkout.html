@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Checkout - Gurkha Watch</title>
+<style>
+  #order-table th,
+  #order-table td {
+    padding: 0.5rem;
+  }
+
+  #order-table tr:first-child td {
+    padding-top: 1rem;
+  }
+
+  #order-table tr:last-child td {
+    padding-bottom: 1rem;
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary text-secondary">
+  <p class="max-w-screen-2xl mx-auto px-4 pt-8 pb-12 text-xl font-bold text-center">CHECKOUT</p>
+  <form class="max-w-screen-2xl mx-auto px-4 pb-8 lg:flex lg:space-x-12" action="/checkout/" method="POST">
+    {% csrf_token %}
+    <div style="flex: 2;">
+      <div class="p-6 bg-primary3 rounded-3xl">
+        <p class="mb-4 pb-0.5 text-lg font-bold border-b border-secondary2">BILLING DETAILS</p>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">First Name</label>
+            <input type="text" placeholder="First Name" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Last Name</label>
+            <input type="text" placeholder="Last Name" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Email</label>
+            <input type="email" placeholder="Email" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Phone Number</label>
+            <input type="text" placeholder="Phone Number" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Country</label>
+            <input type="text" placeholder="Country"
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">State</label>
+            <input type="text" placeholder="State" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">City</label>
+            <input type="text" placeholder="City" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+          <div class="flex flex-col flex-1">
+            <label class="mb-1">Postal Code</label>
+            <input type="text" placeholder="Postal Code" required
+              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          </div>
+        </div>
+        <div class="mb-4 flex flex-col">
+          <label class="mb-1">Street Address</label>
+          <input type="text" placeholder="House number and street name" required
+            class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          <input type="text" placeholder="Apartment, suite, unit etc. (optional)"
+            class="mt-1.5 py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+        </div>
+        <div class="mb-4 flex flex-col">
+          <label class="mb-1">Order Notes (Optional)</label>
+          <textarea rows="4" placeholder="Notes about your order, e.g. special notes for delivery"
+            class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 p-6 lg:mt-0 bg-primary3 rounded-3xl" style="flex: 1;">
+      <p class="pb-0.5 text-lg font-bold border-b border-secondary2">ORDER SUMMARY</p>
+      <table id="order-table" class="w-full border-collapse">
+        <tbody class="text-sm">
+          <tr>
+            <td>
+              Order Total (2 Items)
+            </td>
+            <td>
+              $100
+            </td>
+          </tr>
+          <tr class="border-b border-secondary2">
+            <td>
+              Shipping
+            </td>
+            <td>
+              $0
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="text-sm font-bold">
+          <tr>
+            <td>Total</td>
+            <td>$250</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="flex justify-center space-x-1.5">
+        <i class="fab fa-cc-visa fa-2x"></i>
+        <i class="fab fa-cc-paypal fa-2x"></i>
+        <i class="fab fa-cc-mastercard fa-2x"></i>
+        <i class="fab fa-cc-amex fa-2x"></i>
+      </div>
+      <div class="mt-2 flex items-center space-x-1">
+        <input type="checkbox" required />
+        <label class="text-sm">I HAVE READ AND AGREE TO THE WEBSITE <a href="/terms-and-conditions" target="_blank"
+            rel="noreferrer" class="text-green-800 hover:underline">TERMS AND CONDITIONS</a></label>
+      </div>
+      <button type="submit"
+        class="w-full mt-2 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary text-center rounded-md font-bold">
+        Place Order
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock content %}

@@ -31,9 +31,16 @@
         <span>Customer Support</span>
         <i class="mt-0.5 ml-1 fas fa-angle-down"></i>
       </div>
+      {% if user.id is None %}
       <div class="flex items-center">
-        <a href="#!">Login | Register</a>
+        <span><a href="{% url 'login' %}">Login </a></span>| <span><a href="{% url 'register' %}">Register</a></span>
       </div>
+      {% else %}
+      <div class="flex items-center">
+        <span><a href="{% url 'dashboard' %}">Dashboard </a></span>| <span><a
+            href="{% url 'logout' %}">Logout</a></span>
+      </div>
+      {% endif %}
       <a href="#!" class="flex items-center">
         <i class="mr-1 fas fa-shopping-cart"></i>
         <div class="flex flex-col justify-center">
@@ -94,9 +101,11 @@
       </div>
     </div>
     <!-- Searchbar start -->
-    <div class="h-16 w-0 fixed top-10 lg:top-14 right-0 bg-gray-50 text-primary lg:rounded-l-md" id="searchbar" style="z-index: 101; transition: width 0.5s ease;">
-      <form class="h-full w-full px-4 flex">
-        <input type="text" placeholder="Search" class="flex-1 bg-transparent outline-none" style="padding-inline-start: 0.5rem;" />
+    <div class="h-16 w-0 fixed top-10 lg:top-14 right-0 bg-gray-50 text-primary lg:rounded-l-md" id="searchbar"
+      style="z-index: 101; transition: width 0.5s ease;">
+      <form class="h-full w-full px-4 flex" action="{% url 'search' %}" method="GET">
+        <input type="text" placeholder="Search" class="flex-1 bg-transparent outline-none"
+          style="padding-inline-start: 0.5rem;" name="keyword" />
         <div class="flex items-center">
           <button type="button" onclick="closeSearchBar()" class="p-3">
             <i class="fas fa-times fa-lg"></i>
