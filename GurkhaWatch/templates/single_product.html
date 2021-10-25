@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block head %}
 <title>Single Product - Gurkha Watch</title>
@@ -13,6 +14,7 @@
     -moz-appearance: textfield;
   }
 </style>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/xzoom/dist/xzoom.css">
 {% endblock head %}
 
 {% block content %}
@@ -21,11 +23,22 @@
   <div class="max-w-screen-2xl mx-auto px-4 py-4">
     <div class="flex flex-col sm:flex-row space-y-5 sm:space-x-10 lg:space-x-20">
       <div class="flex flex-col space-y-4 flex-1">
-        <img src="{{single_product.image.url}}" alt="urban chrono watch" class="h-auto w-full object-cover" />
-        <div class="flex justify-center space-x-2">
-          <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch" class="h-16 w-auto object-cover" />
-          <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch" class="h-16 w-auto object-cover" />
-          <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch" class="h-16 w-auto object-cover" />
+        <div class="max-w-md"></div>
+        <img src="{{single_product.image.url}}" alt="urban chrono watch" class="xzoom"
+          xoriginal="{{single_product.image.url}}" />
+      </div>
+      <div class="w-full max-w-md">
+        <div class="flex justify-center flex-wrap space-x-2">
+          <a href="{{single_product.image.url}}">
+            <img src="{{single_product.image.url}}" alt="urban chrono watch" class="xzoom-gallery h-12 w-auto"
+              xpreview="{% static 'images/urban-chrono.jpg' %}">
+          </a>
+          {% for i in "1234" %}
+          <a href="{% static 'images/g200.jpg' %}">
+            <img src="{% static 'images/g200.jpg' %}" alt="" class="xzoom-gallery h-12 w-auto"
+              xpreview="{% static 'images/g200.jpg' %}">
+          </a>
+          {% endfor %}
         </div>
       </div>
       <div class="text-secondary4 flex-1">
@@ -45,9 +58,19 @@
           </div>
           {% if single_product.stock <= 0 %} <h5>OUT OF STOCK</h5>
             {% else %}
-            <button type="submit" class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">ADD TO
-              CART</button>
-            {% endif %}
+            {% if in_cart %}
+            <a href="#" class="btn btn-primary">ADDED TO
+              <a href="{% url 'cart' %}" class="btn btn-primary">VIEW CART</a>
+              {% else %}
+              <a href="{% url 'add_cart' single_product.id %}" class="btn btn-primary">ADD TO
+                CART</a>
+              {% comment %}
+              <button type="submit" class=" px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">ADD
+                TO
+                CART</button>
+              {% endcomment %}
+              {% endif %}
+              {% endif %}
         </form>
         <div class="text-xs">
           <p class="mb-0.5"><i class="fas fa-truck fa-sm mr-0.5"></i> FREE SHIPPING</p>

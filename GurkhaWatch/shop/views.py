@@ -4,6 +4,8 @@ from .models import Product
 from category.models import Category
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from carts.models import CartItem
+from carts.views import _cart_id
 # Create your views here.
 def shop(request, category_slug=None):
     categories = None
@@ -32,11 +34,14 @@ def shop(request, category_slug=None):
 def product_detail(request, product_slug):
     try:
         single_product = Product.objects.get(slug = product_slug)
+        in_cart = CartItem.objects.filter(cart__cart_id = _cart_id(request), product = single_product).exists()
+        
     except Exception as e:
         raise e
     
     context = {
-        'single_product':single_product
+        'single_product':single_product,
+        'in_cart':in_cart,
     }
     return render(request, 'single_product.html', context)
 
