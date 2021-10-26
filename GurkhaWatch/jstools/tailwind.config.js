@@ -20,10 +20,12 @@ module.exports = {
         secondary: "#dededf",
         secondary2: "#7a7a7a",
         secondary3: "#a5a5a6",
+        secondary4: "#f2f2f6",
         golden: "#ab6e36",
       },
       fontFamily: {
         jura: ['"Jura"', "sans-serif"],
+        montserrat: ['"Montserrat"', "sans-serif"]
       },
       rotate: {
         "30": "30deg"

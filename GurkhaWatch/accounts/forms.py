@@ -16,8 +16,7 @@ class RegistrationForm(forms.ModelForm):
         self.fields['email'].widget.attrs['placeholder'] = 'Enter Email'
         #this class name applies to every field of the given registration form
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
-
+            self.fields[field].widget.attrs['class'] = 'py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none'
     
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()

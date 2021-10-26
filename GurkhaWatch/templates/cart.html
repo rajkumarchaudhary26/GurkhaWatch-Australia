@@ -36,7 +36,7 @@
 {% endblock head %}
 
 {% block content %}
-<div class="bg-primary text-secondary">
+<div class="bg-primary2 text-secondary">
   <div class="max-w-screen-xl mx-auto px-4 pt-8 pb-12">
     <p class="pb-6 text-xl font-bold text-center">MY CART</p>
     {% if not cart_items %}
@@ -48,7 +48,7 @@
         Shopping</a>
     </div>
     {% else %}
-    <div class="md:flex md:space-x-12">
+    <div class="md:flex md:items-start md:space-x-12">
       <table id="cart-table" class="w-full border-collapse" style="flex: 2;">
         <thead>
           <tr class="border-b border-secondary2">
@@ -62,62 +62,30 @@
           <tr class="border-b border-secondary2">
             <td class="flex justify-center items-center space-x-4" style="width: 100%;">
               <div style="min-width: 50px; max-width: 100px;">
-                <img src="{{ cart_item.product.image.url }}" alt="urban chrono watch"
+                <img src="{{ cart_item.product.image.url }}" alt="{{cart_item.product.product_name}}"
                   class="h-full w-full object-contain" />
               </div>
-              <a href="{{ cart_item.product.get_url }}">{{ cart_item.product.product_name|upper}}</a>
-              {% comment %}
-              <p>Urban Chrono Green Dial</p>
-              {% endcomment %}
+              <a href="{{ cart_item.product.get_url }}" class="block">{{cart_item.product.product_name|upper}}</a>
             </td>
             <td>
               <form>
                 <div class="flex justify-center items-center">
-                  <a href="{% url 'remove_cart' cart_item.product.id %}" type="submit" class="text-xl font-bold">-</a>
+                  <a href="{% url 'remove_cart' cart_item.product.id %}" class="text-xl font-bold">-</a>
                   <input type="number" step="1" value="{{cart_item.quantity}}"
                     class="w-8 mx-1.5 py-0.5 text-center bg-primary text-secondary border border-secondary outline-none rounded-md" />
-                  <a href="{% url 'add_cart' cart_item.product.id %}" type="submit" class="text-xl font-bold">+</a>
+                  <a href="{% url 'add_cart' cart_item.product.id %}" class="text-xl font-bold">+</a>
                 </div>
                 <div class="mt-2 flex justify-center items-center">
-                  <a href="{% url 'remove_cart_item' cart_item.product.id %}" type="submit"
+                  <a href="{% url 'remove_cart_item' cart_item.product.id %}"
                     class="px-1 text-xs border border-secondary rounded-sm">REMOVE</a>
                 </div>
               </form>
             </td>
             <td>
-              AU $ {{cart_item.sub_total}}
+              AUD ${{cart_item.sub_total}}
             </td>
           </tr>
           {% endfor %}
-          {% comment %}
-          {% for i in "12345" %}
-          <tr class="border-b border-secondary2">
-            <td class="flex justify-center items-center space-x-4" style="width: 100%;">
-              <div style="min-width: 50px; max-width: 100px;">
-                <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch"
-                  class="h-full w-full object-contain" />
-              </div>
-              <p>Urban Chrono Green Dial</p>
-            </td>
-            <td>
-              <form>
-                <div class="flex justify-center items-center">
-                  <button type="submit" class="text-xl font-bold">-</button>
-                  <input type="number" step="1" value="1"
-                    class="w-8 mx-1.5 py-0.5 text-center bg-primary text-secondary border border-secondary outline-none rounded-md" />
-                  <button type="submit" class="text-xl font-bold">+</button>
-                </div>
-                <div class="mt-2 flex justify-center items-center">
-                  <button type="submit" class="px-1 text-xs border border-secondary rounded-sm">REMOVE</button>
-                </div>
-              </form>
-            </td>
-            <td>
-              $150
-            </td>
-          </tr>
-          {% endfor %}
-          {% endcomment %}
         </tbody>
       </table>
       <div style="flex: 1;">
@@ -133,7 +101,7 @@
                 Order Total ({{cart_count}} Items)
               </td>
               <td>
-                {{total}}
+                ${{total}}
               </td>
             </tr>
             <tr class="border-b border-secondary2">
@@ -148,7 +116,7 @@
           <tfoot class="text-sm font-bold">
             <tr>
               <td>Grand Total</td>
-              <td>{{grand_total}}</td>
+              <td>${{grand_total}}</td>
             </tr>
           </tfoot>
         </table>

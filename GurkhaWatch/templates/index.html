@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block head %}
 <title>Homepage - Gurkha Watch</title>
@@ -6,38 +7,78 @@
   .slick-dots {
     position: static;
   }
+
+  .carousel-slide {
+    height: 40vh;
+  }
+
+  .carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  @media (min-width: 640px) {
+    .carousel-slide {
+      height: 50vh;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .carousel-overlay {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-slide-content {
+      background-position: top 0 right 10rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .carousel-slide-content {
+      background-position: top 0 right 16rem;
+    }
+  }
 </style>
 {% endblock head %}
 
 {% block content %}
 <!-- Carousel start -->
 <div class="bg-primary2">
-  <div class="max-w-screen-2xl mx-auto px-4 main-carousel" style="margin-bottom: 0">
-    <div class="bg-yellow-400" style="height: 450px">
-      <div class="h-full w-full relative flex justify-center items-center">
-        1
+  <div class="max-w-screen-2xl mt-4 mx-auto px-4 main-carousel" style="margin-bottom: 0">
+    {% for i in '1234' %}
+    <div class="carousel-slide bg-primary4 text-secondary">
+      <div class="carousel-slide-content h-full w-full relative bg-no-repeat bg-right bg-contain"
+        style="background-image: url('{% static 'images/g200.jpg' %}');">
+        <div class="carousel-overlay">
+          <div
+            class="h-full w-full sm:w-3/5 lg:w-2/4 p-3 lg:pl-64 flex flex-col justify-center items-center font-montserrat">
+            <h2 class="mb-3 lg:mb-4 text-3xl lg:text-4xl font-semibold text-center">G200-Mix Edition</h2>
+            <p class="mb-2 lg:mb-3 text-secondary2 uppercase text-center" style="font-size: 0.6rem;">
+              This watch will only be delivered after last week of september 100M water resistance
+              sapphire crystal glass 316L full stainless steel body 3 years international warranty
+            </p>
+            <div class="flex items-center space-x-4">
+              <div class="text-right">
+                <p class="mb-1 text-golden" style="font-size: 0.5rem;">STARTING FROM</p>
+                <p class="text-secondary3 leading-none line-through">AU $170.00</p>
+                <p class="leading-tight">AU $140.00</p>
+              </div>
+              <a href="/products/product-slug/"
+                class="py-1 px-2 text-xs text-golden hover:text-secondary hover:bg-golden border border-golden rounded-md transition-all duration-500">
+                PRODUCT INFO
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="bg-red-400" style="height: 450px">
-      <div class="h-full w-full relative flex justify-center items-center">
-        2
-      </div>
-    </div>
-    <div class="bg-blue-400" style="height: 450px">
-      <div class="h-full w-full relative flex justify-center items-center">
-        3
-      </div>
-    </div>
-    <div class="bg-green-400" style="height: 450px">
-      <div class="h-full w-full relative flex justify-center items-center">
-        4
-      </div>
-    </div>
-    <div class="bg-gray-400" style="height: 450px">
-      <div class="h-full w-full relative flex justify-center items-center">
-        5
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
 <!-- Carousel end -->
@@ -49,7 +90,7 @@
     <div class="collection-carousel">
       {% for collection in collections %}
       <div class="px-3">
-        <a href="#!" class="h-72 overflow-hidden block relative">
+        <a href="{{collection.get_url}}" class="h-72 overflow-hidden block relative">
           {% if collection.category_image %}
           <img src="{{collection.category_image.url}}" alt="{{collection.category_name}}"
             class="h-full w-full object-cover transform hover:scale-110 transition duration-700" />
@@ -82,14 +123,24 @@
             style="z-index: 100;">
             15% OFF
           </span>
-          <a href="#!" class="h-60 mb-2 block overflow-hidden">
-            <img src="{{best_selling_product.image.url}}" alt="Watch"
+          {% comment %} <span
+            class="px-2 py-1 absolute top-1/3 left-1/2 text-xs text-center font-bold text-red-500 border uppercase border-red-500 transform -rotate-12 -translate-x-1/2 rounded-md"
+            style="z-index: 100;">
+            Out Of Stock
+          </span> {% endcomment %}
+          <a href="{{best_selling_product.get_url}}" class="h-60 mb-2 block overflow-hidden">
+            <img src="{{best_selling_product.image.url}}" alt="{{best_selling_product.product_name}}"
               class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
           </a>
           <p class="text-golden text-center text-xs">{{best_selling_product.product_name|upper}}</p>
-          <p class="text-secondary text-center text-sm">{{best_selling_product.product_name|upper}}</p>
+          <a href="{{best_selling_product.get_url}}" class="block text-secondary text-center text-sm transition-all hover:text-secondary3">{{best_selling_product.product_name|upper}}</a>
           <div class="h-0.5 my-1 bg-secondary2"></div>
-          <p class="text-secondary text-center text-sm">AU ${{best_selling_product.price}}</p>
+          <div class="flex justify-center items-center space-x-2">
+            <!-- uncomment if discount present -->
+            {% comment %} <p class="text-secondary3 text-center text-sm line-through">AU $170.00</p>
+            <p class="text-secondary text-center text-sm">AU $144.50</p> {% endcomment %}
+            <p class="text-secondary text-center text-sm">AU ${{best_selling_product.price}}</p>
+          </div>
         </div>
       </div>
       {% endfor %}
@@ -124,29 +175,29 @@
       autoplay: true,
       autoplaySpeed: 2000,
       responsive: [{
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 640,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
       ],
     });
 
@@ -160,29 +211,37 @@
       autoplay: true,
       autoplaySpeed: 2500,
       responsive: [{
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          infinite: true,
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 640,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
+        {
+          breakpoint: 500,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
       ],
     });
   });

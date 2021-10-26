@@ -12,6 +12,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <!-- Font awesome -->
   <script src="https://kit.fontawesome.com/0e3115dc97.js" crossorigin="anonymous"></script>
   <!-- Slick's CSS -->
@@ -20,11 +23,24 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
   {% block head %}{% endblock head %}
+  <style>
+    .success {
+      background-color: #10b981;
+    }
+
+    .danger {
+      background-color: #f87171;
+    }
+
+    .info {
+      background-color: #3b82f6;
+    }
+  </style>
 </head>
 
-<body>
+<body class="bg-primary2">
   <!-- Navbar start -->
-  <nav class="pb-4 bg-primary text-secondary">
+  <nav class="mb-4 pb-4 bg-primary text-secondary" style="box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 80%);">
     <div class="mx-auto px-4 py-1 lg:py-3 max-w-screen-2xl flex justify-end space-x-4 text-xs">
       <div class="hidden lg:flex items-center">
         <i class="mr-1 fas fa-headset"></i>
@@ -33,12 +49,18 @@
       </div>
       {% if user.id is None %}
       <div class="flex items-center">
-        <span><a href="{% url 'login' %}">Login </a></span>| <span><a href="{% url 'register' %}">Register</a></span>
+        <a href="{% url 'login' %}">Login</a>
+        <span>&nbsp;|&nbsp;</span>
+        <a href="{% url 'register' %}">Register</a>
       </div>
       {% else %}
-      <div class="flex items-center">
-        <span><a href="{% url 'dashboard' %}">Dashboard </a></span>| <span><a
-            href="{% url 'logout' %}">Logout</a></span>
+      <div class="flex flex-col justify-center items-center">
+        <p class="text-secondary3">Welcome, User!</p>
+        <div class="flex items-center">
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <span>&nbsp;|&nbsp;</span>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
       </div>
       {% endif %}
       <a href="{% url 'cart' %}" class="flex items-center">
@@ -50,6 +72,67 @@
       </a>
     </div>
     <div class="h-0.5 bg-secondary2"></div>
+    <!-- Cart sidebar start -->
+    <div class="h-0 w-screen fixed bottom-0" id="cart-sidebar-overlay"
+      style="z-index: 999;background-color: rgba(0, 0, 0, 0.7);transition: height 0.5s ease;"></div>
+    <div class="h-screen w-0 overflow-auto fixed top-0 right-0 bg-primary7"
+      style="z-index: 1000; max-width: 80%; transition: width 0.5s ease;" id="cart-sidebar">
+      <div class="m-6">
+        <div class="flex items-end text-secondary whitespace-nowrap">
+          <i class="fas fa-shopping-cart fa-2x mr-3 relative">
+            <span
+              class="px-1 py-0.5 flex justify-center items-center rounded-full absolute -top-2 -left-0.5 text-xs text-secondary bg-primary5 border border-secondary3 font-jura font-light"
+              style="min-width: 3ch;">2<span>
+          </i>
+          <p>SHOPPING CART</p>
+        </div>
+        <div class="h-0.5 mt-2 bg-secondary2"></div>
+        <!--
+        <div class="my-6 text-center">
+          <i class="fas fa-shopping-bag fa-5x text-secondary2 mb-6"></i>
+          <p>No products in the cart.</p>
+        </div>
+        -->
+        <div class="mt-2 mb-6">
+          <div class="py-4 flex items-start space-x-4 border-b border-secondary2">
+            <a href="#!" style="max-width: 100px;">
+              <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch"
+                class="h-full w-full object-contain" />
+            </a>
+            <div class="text-xs">
+              <a href="#!" class="mb-1 block">GURKHA URBAN CHRONO GREEN DIAL</a>
+              <p class="text-secondary3">1 &times; $800.00</p>
+            </div>
+            <button>
+              <i class="fas fa-trash text-sm text-secondary3"></i>
+            </button>
+          </div>
+          <div class="py-4 flex items-start space-x-4 border-b border-secondary2">
+            <a href="#!" style="max-width: 100px;">
+              <img src="/static/images/urban-chrono.jpg" alt="urban chrono watch"
+                class="h-full w-full object-contain" />
+            </a>
+            <div class="text-xs">
+              <a href="#!" class="mb-1 block">GURKHA URBAN CHRONO GREEN DIAL</a>
+              <p class="text-secondary3">1 &times; $800.00</p>
+            </div>
+            <button>
+              <i class="fas fa-trash text-sm text-secondary3"></i>
+            </button>
+          </div>
+          <div class="mt-2 flex justify-between items-center">
+            <span class="text-xs text-secondary3">SUBTOTAL:</span>
+            <span>$1600.00</span>
+          </div>
+        </div>
+        <div class="text-sm">
+          <a href="/cart" class="mb-2 py-2 px-4 block rounded-md bg-green-900 text-secondary text-center">VIEW CART</a>
+          <a href="/checkout"
+            class="mb-2 py-2 px-4 block rounded-md bg-primary5 text-secondary text-center">CHECKOUT</a>
+        </div>
+      </div>
+    </div>
+    <!-- Cart sidebar end -->
     <!-- Mobile Navbar start -->
     <div class="px-4 pt-3 lg:hidden flex justify-between items-center" id="mobile-nav">
       <button onclick="openMobileNav()" id="mobile-nav-hamburger">
@@ -101,7 +184,7 @@
       </div>
     </div>
     <!-- Searchbar start -->
-    <div class="h-16 w-0 fixed top-10 lg:top-14 right-0 bg-gray-50 text-primary lg:rounded-l-md" id="searchbar"
+    <div class="h-16 lg:h-12 w-0 fixed top-10 lg:top-20 right-0 bg-gray-50 text-primary lg:rounded-l-md" id="searchbar"
       style="z-index: 101; transition: width 0.5s ease;">
       <form class="h-full w-full px-4 flex" action="{% url 'search' %}" method="GET">
         <input type="text" placeholder="Search" class="flex-1 bg-transparent outline-none"
@@ -120,44 +203,40 @@
     <!-- Searchbar end -->
     <!-- Mobile Navbar end -->
     <!-- Desktop Navbar start -->
-    <div class="mx-auto px-4 py-1.5 hidden max-w-screen-2xl lg:flex justify-center items-center space-x-6">
-      <a href="/" class="text-center">HOME</a>
-      <a href="/shop/" class="flex items-center">
-        <span>SHOP</span>
-        <i class="mt-0.5 ml-1 fas fa-angle-down"></i>
-      </a>
-      <a href="/product-category/mens-watches/" class="text-center">FOR MEN</a>
-      <a href="/product-category/ladies-watches/" class="text-center">FOR LADIES</a>
-      <a href="/product-category/accessories/" class="text-center">ACCESSORIES</a>
+    <div class="mx-auto px-4 py-1.5 hidden max-w-screen-2xl lg:flex justify-between items-center">
+      <div class="flex-1 flex justify-end items-center space-x-6">
+        <a href="/" class="text-center">HOME</a>
+        <a href="/shop/" class="flex items-center">SHOP</a>
+        <a href="/product-category/mens-watches/" class="text-center">FOR MEN</a>
+        <a href="/product-category/ladies-watches/" class="text-center">FOR LADIES</a>
+        <a href="/product-category/accessories/" class="text-center">ACCESSORIES</a>
+      </div>
       <a href="/" class="p-2 flex-shrink-0">
         <img src="{% static 'images/gurkha.png' %}" alt="Gurkha Logo" class="h-16 w-auto" />
       </a>
-      <a href="/product-category/upcoming-watches/" class="text-center">UPCOMING</a>
-      <a href="/contact/" class="text-center">CONTACT US</a>
-      <a href="/about/" class="text-center">ABOUT US</a>
-      <a href="/blog/" class="text-center">BLOG</a>
-      <button onclick="openSearchBar()">
-        <i class="fas fa-search"></i>
-      </button>
+      <div class="flex-1 flex justify-start items-center space-x-6">
+        <a href="/product-category/upcoming-watches/" class="text-center">UPCOMING</a>
+        <a href="/contact/" class="text-center">CONTACT US</a>
+        <a href="/about/" class="text-center">ABOUT US</a>
+        <a href="/blog/" class="text-center">BLOG</a>
+        <button onclick="openSearchBar()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
     </div>
     <!-- Desktop Navbar end -->
     <div class="h-0.5 hidden bg-secondary2 lg:flex"></div>
   </nav>
   <!-- Navbar end -->
 
+  {% include "includes/alerts.html" %}
+
   {% block content %} {% endblock content %}
 
   <!-- Footer start -->
   <footer class="bg-primary3">
-    <div class="
-          max-w-screen-2xl
-          mx-auto
-          px-4
-          py-10
-          flex flex-col
-          space-y-10
-          sm:flex-row sm:justify-between sm:space-x-10 sm:space-y-0
-        ">
+    <div
+      class="max-w-screen-2xl mx-auto px-4 py-10 flex flex-col space-y-10 sm:flex-row sm:justify-between sm:space-x-10 sm:space-y-0">
       <div class="flex-1 text-secondary2">
         <div class="mb-2 ml-2 p-2 inline-block bg-transparent rounded-sm">
           <img src="{% static 'images/gurkha.png' %}" alt="Gurkha Logo" class="h-16 w-auto" />
@@ -253,7 +332,9 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript">
     mobileNavOverlay = document.querySelector("#mobile-nav-overlay");
+    cartSidebarOverlay = document.querySelector("#cart-sidebar-overlay");
     mobileNavLinks = document.querySelector("#mobile-nav-links");
+    cartSidebar = document.querySelector("#cart-sidebar");
     searchBar = document.querySelector("#searchbar");
 
     function openMobileNav() {
@@ -261,17 +342,27 @@
       mobileNavOverlay.style.height = "100vh";
     }
 
+    function openCartSidebar() {
+      cartSidebar.style.width = "400px";
+      cartSidebarOverlay.style.height = "100vh";
+    }
+
     function openSearchBar() {
       if (window.innerWidth < 1024) {
         searchBar.style.width = "100%";
       } else {
-        searchBar.style.width = "45%";
+        searchBar.style.width = "40%";
       }
     }
 
     function closeMobileNav() {
       mobileNavLinks.style.width = "0";
       mobileNavOverlay.style.height = "0";
+    }
+
+    function closeCartSidebar() {
+      cartSidebar.style.width = "0";
+      cartSidebarOverlay.style.height = "0";
     }
 
     function closeSearchBar() {
@@ -282,7 +373,17 @@
       mobileNavOverlay.addEventListener("click", function () {
         return closeMobileNav();
       });
+      cartSidebarOverlay.addEventListener("click", function () {
+        return closeCartSidebar();
+      });
       document.querySelector("#current-year").textContent = new Date().getFullYear();
+    });
+  </script>
+  <script type="text/javascript">
+    $(".close-alert-button").click(function (e) {
+      $(this).parent().hide(500, function () {
+        $(this).remove();
+      });
     });
   </script>
   {% block scripts %} {% endblock scripts %}

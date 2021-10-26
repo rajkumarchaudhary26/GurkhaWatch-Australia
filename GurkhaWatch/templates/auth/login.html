@@ -9,10 +9,9 @@
 Thank you for registering. Please check your email for verification. [{{request.GET.email}}]<br><br>
 Already verified?<a href="{% url 'login' %}">Login</a>
 {% else %}
-<div class="bg-primary text-secondary">
-  <div class="max-w-xl mx-auto px-4 pt-8 pb-12">
-    <p class="pb-6 text-xl font-bold text-center">Login</p>
-    {% include 'includes/alerts.html' %}
+<div class="bg-primary2 text-secondary">
+  <div class="max-w-xl mx-auto mt-4 mb-12 px-4">
+    <p class="pb-4 text-xl font-bold text-center">Login</p>
     <form action="{% url 'login' %}" method="POST" class="max-w-3xl mx-auto p-6 bg-primary3 rounded-xl text-sm">
       {% csrf_token %}
       <div class="mb-4 flex flex-col space-y-4">
@@ -35,8 +34,8 @@ Already verified?<a href="{% url 'login' %}">Login</a>
       <div>
         <button type="submit"
           class="mt-5 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary rounded-md font-bold">Login</button>
-        <span class="mt-2 inline-block text-green-800 hover:underline">Don't have an account? Go To <a
-            href="{% url 'register' %}">Register</a></span>
+        <a href="{% url 'register' %}" class="mt-2 inline-block text-green-800 hover:underline">Don't have an account?
+          Go to Register</a>
       </div>
     </form>
   </div>
