@@ -22,13 +22,14 @@ from shop import views as shop_views
 from carts import views as cart_views
 from django.conf.urls.static import static
 from django.conf import settings
+from blog import views as blog_views
+from productslider import views as productslider_views
 
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('securelogin/', admin.site.urls),
-    path('', gurkhawatch_views.home, name='home'),
+    path('', productslider_views.product_slider, name='home'),
     path('about/', gurkhawatch_views.about, name='about'),
-    path('blog/', gurkhawatch_views.blog, name='blog'),
     path('contact/', gurkhawatch_views.contact, name='contact'),
     path('shop/', shop_views.shop, name='shop'),
     path('cart/', cart_views.cart, name='cart'),
@@ -49,6 +50,10 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('submit_review/<int:product_id>/',
          shop_views.submit_review, name='submit_review'),
+    path('blog/',
+         blog_views.post_list, name='blog'),
+    path('blog/<slug:slug>/',
+         blog_views.postDetail.as_view(), name='blog_detail'),
 
     # path('product-category/<slug:slug>/', gurkhawatch_views.category, name='category')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

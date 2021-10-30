@@ -184,7 +184,7 @@
         <a href="/about/" onclick="closeMobileNav()">About Us</a>
       </div>
       <div class="mx-4 px-1 py-2 border-b border-secondary2">
-        <a href="/blog/" onclick="closeMobileNav()">Blog</a>
+        <a href="{% url 'blog' %}" onclick="closeMobileNav()">Blog</a>
       </div>
     </div>
     <!-- Searchbar start -->
@@ -222,7 +222,7 @@
         <a href="/product-category/upcoming-watches/" class="text-center">UPCOMING</a>
         <a href="/contact/" class="text-center">CONTACT US</a>
         <a href="/about/" class="text-center">ABOUT US</a>
-        <a href="/blog/" class="text-center">BLOG</a>
+        <a href="{% url 'blog' %}" class="text-center">BLOG</a>
         <button onclick="openSearchBar()">
           <i class="fas fa-search"></i>
         </button>

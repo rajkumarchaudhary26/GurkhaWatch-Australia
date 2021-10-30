@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'orders',
     'blog',
     'admin_honeypot',
+    'mathfilters',
+    'productslider',
 ]
 
 MIDDLEWARE = [

@@ -13,6 +13,8 @@ class Product(models.Model):
     # description = models.TextField(max_length=500, blank=True)
     description = HTMLField()
     price = models.IntegerField()
+    # default = 0, so that it doesn't throw 'NoneType' error when null
+    discount_percent = models.FloatField(default=0)
     image = models.ImageField(upload_to='photos/products', )
     stock = models.IntegerField()
     specification = models.ImageField(
@@ -27,6 +29,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def discount(self):
+        if self.discount_percent > 0:
+            discounted_price = self.price - self.price * self.discount_percent / 100
+            return discounted_price
 
     def averageReview(self):
         reviews = ReviewRating.objects.filter(

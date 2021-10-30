@@ -19,9 +19,9 @@ endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
 
 class CreateCheckoutSessionView(generic.View):
-    def post(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         host = self.request.get_host()
-        current_user = request.user
+        current_user = request.user.first_name
 
     # when cart count is less than or equal to 0, then redirect back to shop
         cart_items = CartItem.objects.filter(user=current_user)
@@ -35,21 +35,21 @@ class CreateCheckoutSessionView(generic.View):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        tax = (10 * total)/100
-        grand_total = total + tax
-        # order_id = self.request.POST.get('order-id')
-        # order = Order.objects.get(id=order_id)
+        tax = (10 * round(total, 2))/100
+        grand_total = int(total + tax)
+        order_id = self.request.POST.get('order-id')
+        order = Order.objects.get(id=order_id)
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
                     'price_data': {
                         'currency': 'aud',
-                        'unit_amount': grand_total * 100,
+                        'unit_amount': grand_total,
                         'product_data': {
                             'name': current_user,
                         },
                     },
-                    'quantity': quantity,
+                    'quantity': 1,
                 },
             ],
             payment_method_types=[
@@ -109,7 +109,7 @@ def my_webhook_view(request):
 def fulfill_order():
     order = Order.objects.get(id=order_id)
     order.ordered = True
-    order.created_at = datetime.datetime.now()
+    order.orderDate = datetime.datetime.now()
     order.save()
 
     for item in order.items.all():

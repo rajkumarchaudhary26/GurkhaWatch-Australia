@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load mathfilters %}
 
 {% block head %}
 <title>Homepage - Gurkha Watch</title>
@@ -51,25 +52,31 @@
 <!-- Carousel start -->
 <div class="bg-primary2">
   <div class="max-w-screen-2xl mt-4 mx-auto px-4 main-carousel" style="margin-bottom: 0">
-    {% for i in '1234' %}
+    {% for item in sliders %}
     <div class="carousel-slide bg-primary4 text-secondary">
       <div class="carousel-slide-content h-full w-full relative bg-no-repeat bg-right bg-contain"
-        style="background-image: url('{% static 'images/g200.jpg' %}');">
+        style="background-image: url('{{item.slider_product_image.url}}');">
         <div class="carousel-overlay">
           <div
             class="h-full w-full sm:w-3/5 lg:w-2/4 p-3 lg:pl-64 flex flex-col justify-center items-center font-montserrat">
-            <h2 class="mb-3 lg:mb-4 text-3xl lg:text-4xl font-semibold text-center">G200-Mix Edition</h2>
+            <h2 class="mb-3 lg:mb-4 text-3xl lg:text-4xl font-semibold text-center">{{item.slider_product_name}}</h2>
             <p class="mb-2 lg:mb-3 text-secondary2 uppercase text-center" style="font-size: 0.6rem;">
-              This watch will only be delivered after last week of september 100M water resistance
-              sapphire crystal glass 316L full stainless steel body 3 years international warranty
+              {{item.slider_description|safe}}
             </p>
+
             <div class="flex items-center space-x-4">
               <div class="text-right">
                 <p class="mb-1 text-golden" style="font-size: 0.5rem;">STARTING FROM</p>
-                <p class="text-secondary3 leading-none line-through">AU $170.00</p>
-                <p class="leading-tight">AU $140.00</p>
+                {% if item.slider_product_name.discount_percent %}
+                <p class="text-secondary3 leading-none line-through">AU
+                  {{item.slider_product_name.price|div:100|stringformat:'.2f'}}</p>
+                <p class="leading-tight">AU ${{item.slider_product_name.discount|div:100|stringformat:'.2f'}}</p>
+                {% else %}
+                <p class="text-secondary3 leading-none">AU
+                  {{item.slider_product_name.price|div:100|stringformat:'.2f'}}</p>
+                {% endif %}
               </div>
-              <a href="/products/product-slug/"
+              <a href="{{item.slider_product_name.get_url}}"
                 class="py-1 px-2 text-xs text-golden hover:text-secondary hover:bg-golden border border-golden rounded-md transition-all duration-500">
                 PRODUCT INFO
               </a>
@@ -140,7 +147,8 @@
             <!-- uncomment if discount present -->
             {% comment %} <p class="text-secondary3 text-center text-sm line-through">AU $170.00</p>
             <p class="text-secondary text-center text-sm">AU $144.50</p> {% endcomment %}
-            <p class="text-secondary text-center text-sm">AU ${{best_selling_product.price}}</p>
+            <p class="text-secondary text-center text-sm">AU ${{best_selling_product.price|div:100|stringformat:'.2f'}}
+            </p>
           </div>
         </div>
       </div>

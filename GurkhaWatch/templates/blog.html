@@ -2,6 +2,11 @@
 
 {% block head %}
 <title>Blog - Gurkha Watch</title>
+<style>
+  .blog-card:hover {
+    box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 80%);
+  }
+</style>
 {% endblock head %}
 
 {% block content %}
@@ -13,101 +18,25 @@
   </div>
   <div class="bg-primary2 text-secondary">
     <div class="max-w-screen-2xl mx-auto px-4">
-      <div class="py-8 flex justify-end">
+      <div class="lg:px-56 py-8 flex justify-end">
         <select name="sorting" class="px-3 py-1 bg-primary5 text-sm rounded-md focus:outline-none cursor-pointer"
           style="padding-inline-end: 1rem;">
           <option selected>Sorting</option>
         </select>
       </div>
       <div class="lg:px-56 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-secondary3">
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
+        {% for post in post_lists %}
+        <a href="{% url 'blog_detail' post.slug %}" class="p-4 bg-black">
+          <p class="font-bold">{{post.title}}</p>
           <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
+          <p class="text-xs">{{post.content|slice:":200"}}
           </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
+          <p class="my-3 text-xs">{{post.created_on}}</p>
+          <div class="h-24 w-full bg-secondary3">
+            <img src="{{post.blog_image.url}}" alt="{{object.title}}" class="w-full h-full object-cover">
+          </div>
         </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
-        <a href="#!" class="p-4 bg-black">
-          <p class="font-bold">This Here Is The Title</p>
-          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
-          <p class="text-xs">
-            Gurkha Watch is a timepiece with technological masterwork and
-            ingenious mechanism that symbolizes over 200 years of bravery
-            and acts of extreme valour.
-          </p>
-          <p class="my-3 text-xs">22/09/2021</p>
-          <div class="h-24 w-full bg-secondary3"></div>
-        </a>
+        {% endfor %}
       </div>
       <div class="lg:px-56 pt-10 pb-14 flex justify-between">
         <a href="#!" class="fa-stack">

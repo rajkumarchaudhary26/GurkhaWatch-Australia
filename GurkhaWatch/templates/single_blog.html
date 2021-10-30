@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Blog Title - Gurkha Watch</title>
+<style>
+  .blog-card:hover {
+    box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 80%);
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary2 text-secondary">
+  <div class="max-w-screen-md my-4 mx-auto px-4 pt-4 pb-12 font-montserrat">
+    <h2 class="text-2xl font-extrabold">{{object.title}}</h2>
+    <p class="mt-4 text-secondary3 text-sm">{{post.created_on}}</p>
+    <div class="h-0.5 w-10 mt-1.5 bg-secondary3"></div>
+    <div class="mt-6">
+      <img src="{{object.blog_image.url}}" alt="{{object.title}}" class="w-full object-contain">
+    </div>
+    <div class="p-6 bg-primary6 text-secondary3">
+      <div>
+        {{object.content|safe}}
+        <!-- <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam quae ad possimus. Iusto nostrum repellat
+          ea dolores expedita quos necessitatibus dignissimos ratione sed facere nisi laudantium voluptas, at tempore
+          illo
+          placeat qui pariatur harum vel neque excepturi aliquid sapiente quas!
+          </p>
+          <br>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam quae ad possimus. Iusto nostrum
+            repellat
+            ea dolores expedita quos necessitatibus dignissimos ratione sed facere nisi laudantium voluptas, at tempore
+            illo
+            placeat qui pariatur harum vel neque excepturi aliquid sapiente quas!
+          </p>
+          <br>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam quae ad possimus. Iusto nostrum
+            repellat
+            ea dolores expedita quos necessitatibus dignissimos ratione sed facere nisi laudantium voluptas, at tempore
+            illo
+            placeat qui pariatur harum vel neque excepturi aliquid sapiente quas!
+          </p> -->
+      </div>
+      <div class="h-0.5 w-10 mt-4 bg-secondary3"></div>
+    </div>
+    <div class="mt-12">
+      <p class="font-bold text-center text-sm">SHARE THIS STORY</p>
+      <div class="mt-2 flex justify-center items-center">
+        <span class="fa-stack">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fab fa-facebook-f fa-stack-1x text-primary"></i>
+        </span>
+        <span class="fa-stack">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fab fa-twitter fa-stack-1x text-primary"></i>
+        </span>
+        <span class="fa-stack">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fab fa-instagram fa-stack-1x text-primary"></i>
+        </span>
+      </div>
+    </div>
+    <div class="mt-12">
+      <p class="mb-4 font-bold">OTHER BLOGS</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for i in '123' %}
+        <a href="/blog/slug" class="blog-card p-4 bg-primary3 transition-all">
+          <p class="font-bold">This Here Is The Title</p>
+          <div class="h-px w-1/6 my-3 bg-secondary3"></div>
+          <p class="text-xs">
+            Gurkha Watch is a timepiece with technological masterwork and
+            ingenious mechanism that symbolizes over 200 years of bravery
+            and acts of extreme valour.
+          </p>
+          <p class="my-3 text-xs">22/09/2021</p>
+          <div class="h-24 w-full">
+            <img src="{% static 'images/khukuri.jpg' %}" alt="" class="w-full h-full object-cover">
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
