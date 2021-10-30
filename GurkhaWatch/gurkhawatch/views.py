@@ -49,11 +49,13 @@ def home(request):
         'best_selling_products': list(range(1, 8))
     })
 '''
+
+
 def home(request):
     products = Product.objects.all().filter(is_available=True)
     collections = Category.objects.all()
 
-    context = {'best_selling_products':products, 'collections':collections}
+    context = {'best_selling_products': products, 'collections': collections}
     return render(request, 'index.html', context)
 
 

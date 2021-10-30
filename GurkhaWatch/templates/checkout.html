@@ -21,7 +21,7 @@
 {% block content %}
 <div class="bg-primary2 text-secondary">
   <p class="max-w-screen-2xl mx-auto px-4 pt-8 pb-12 text-xl font-bold text-center">CHECKOUT</p>
-  <form class="max-w-screen-2xl mx-auto px-4 pb-8 lg:flex lg:space-x-12" action="/checkout/" method="POST">
+  <form class="max-w-screen-2xl mx-auto px-4 pb-8 lg:flex lg:space-x-12" action="{% url 'place_order' %}" method="POST">
     {% csrf_token %}
     <div style="flex: 2;">
       <div class="p-6 bg-primary3 rounded-3xl">
@@ -29,62 +29,51 @@
         <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
           <div class="flex flex-col flex-1">
             <label class="mb-1">First Name</label>
-            <input type="text" placeholder="First Name" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.first_name}}
           </div>
           <div class="flex flex-col flex-1">
             <label class="mb-1">Last Name</label>
-            <input type="text" placeholder="Last Name" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.last_name}}
           </div>
         </div>
         <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
           <div class="flex flex-col flex-1">
             <label class="mb-1">Email</label>
-            <input type="email" placeholder="Email" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.email}}
+
           </div>
           <div class="flex flex-col flex-1">
             <label class="mb-1">Phone Number</label>
-            <input type="text" placeholder="Phone Number" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.phone_number}}
           </div>
         </div>
         <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
           <div class="flex flex-col flex-1">
             <label class="mb-1">Country</label>
-            <input type="text" placeholder="Country"
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.country}}
           </div>
           <div class="flex flex-col flex-1">
             <label class="mb-1">State</label>
-            <input type="text" placeholder="State" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.state}}
           </div>
         </div>
         <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
           <div class="flex flex-col flex-1">
             <label class="mb-1">City</label>
-            <input type="text" placeholder="City" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.city}}
           </div>
           <div class="flex flex-col flex-1">
             <label class="mb-1">Postal Code</label>
-            <input type="text" placeholder="Postal Code" required
-              class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            {{form.postal_code}}
           </div>
         </div>
         <div class="mb-4 flex flex-col">
           <label class="mb-1">Street Address</label>
-          <input type="text" placeholder="House number and street name" required
-            class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
-          <input type="text" placeholder="Apartment, suite, unit etc. (optional)"
-            class="mt-1.5 py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+          {{form.street_address}}
         </div>
         <div class="mb-4 flex flex-col">
           <label class="mb-1">Order Notes (Optional)</label>
-          <textarea rows="4" placeholder="Notes about your order, e.g. special notes for delivery"
-            class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"></textarea>
+          {{form.order_notes}}
         </div>
       </div>
     </div>
@@ -97,7 +86,7 @@
               Order Total ({{cart_count}} Items)
             </td>
             <td>
-              $100
+              ${{total}}
             </td>
           </tr>
           <tr class="border-b border-secondary2">
@@ -112,7 +101,7 @@
         <tfoot class="text-sm font-bold">
           <tr>
             <td>Total</td>
-            <td>$250</td>
+            <td>${{grand_total}}</td>
           </tr>
         </tfoot>
       </table>

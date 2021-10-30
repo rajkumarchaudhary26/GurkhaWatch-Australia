@@ -24,7 +24,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('securelogin/', admin.site.urls),
     path('', gurkhawatch_views.home, name='home'),
     path('about/', gurkhawatch_views.about, name='about'),
     path('blog/', gurkhawatch_views.blog, name='blog'),
@@ -32,13 +33,22 @@ urlpatterns = [
     path('shop/', shop_views.shop, name='shop'),
     path('cart/', cart_views.cart, name='cart'),
     path('add_cart/<int:product_id>/', cart_views.add_cart, name='add_cart'),
-    path('remove_cart/<int:product_id>/', cart_views.remove_cart, name='remove_cart'),
-    path('remove_cart_item/<int:product_id>/', cart_views.remove_cart_item, name='remove_cart_item'),
+    path('remove_cart/<int:product_id>/',
+         cart_views.remove_cart, name='remove_cart'),
+    path('remove_cart_item/<int:product_id>/',
+         cart_views.remove_cart_item, name='remove_cart_item'),
     path('checkout/', cart_views.checkout, name='checkout'),
-    path('product-category/<slug:category_slug>/', shop_views.shop, name='products_by_category'),
-    path('product/<slug:product_slug>/', shop_views.product_detail, name='product_detail'),
+    path('product-category/<slug:category_slug>/',
+         shop_views.shop, name='products_by_category'),
+    path('product/<slug:product_slug>/',
+         shop_views.product_detail, name='product_detail'),
     path('search/', shop_views.search, name='search'),
+    # Orders
+    path('orders/', include('orders.urls')),
     path('my-account/', include('accounts.urls')),
+    path('tinymce/', include('tinymce.urls')),
+    path('submit_review/<int:product_id>/',
+         shop_views.submit_review, name='submit_review'),
 
     # path('product-category/<slug:slug>/', gurkhawatch_views.category, name='category')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

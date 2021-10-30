@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from django.contrib.messages import constants as messages
 from pathlib import Path
 from decouple import config
 
@@ -21,17 +22,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-+t!qf80ufiyy!gw37acfrm3)jl9im@na!(0bg24faw&^rlo4t)')
+SECRET_KEY = config(
+    'SECRET_KEY', default='django-insecure-+t!qf80ufiyy!gw37acfrm3)jl9im@na!(0bg24faw&^rlo4t)')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'gurkhawatch.pontoonads.com', 'gurkha.com.au']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 'gurkhawatch.pontoonads.com', 'gurkhawatch.com.au']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +46,9 @@ INSTALLED_APPS = [
     'accounts',
     'shop',
     'carts',
+    'orders',
+    'blog',
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [
@@ -154,14 +161,18 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-#SMTP Configuration
+# SMTP Configuration
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+
+# Stripe configuration
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')

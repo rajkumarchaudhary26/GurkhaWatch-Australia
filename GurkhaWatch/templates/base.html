@@ -20,6 +20,10 @@
   <!-- Slick's CSS -->
   <link rel="stylesheet" type="text/css" charset="UTF-8"
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
   {% block head %}{% endblock head %}
@@ -55,7 +59,7 @@
       </div>
       {% else %}
       <div class="flex flex-col justify-center items-center">
-        <p class="text-secondary3">Welcome, User!</p>
+        <p class="text-secondary3">Welcome, {{request.user.first_name}} {{request.user.last_name}}</p>
         <div class="flex items-center">
           <a href="{% url 'dashboard' %}">Dashboard</a>
           <span>&nbsp;|&nbsp;</span>
@@ -67,7 +71,7 @@
         <i class="mr-1 fas fa-shopping-cart"></i>
         <div class="flex flex-col justify-center">
           <span>{{cart_count}} Items</span>
-          <span>$0.00</span>
+          <span>${{grand_total}}</span>
         </div>
       </a>
     </div>
