@@ -3,6 +3,16 @@
 {% block head %}
 <title>Make Payment - Gurkha Watch</title>
 <style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
   #cart-table th,
   #cart-table td {
     width: calc(100% / 3);
@@ -26,7 +36,7 @@
 {% endblock head %}
 
 {% block content %}
-<div class="bg-primary text-secondary">
+<div class="bg-primary2 text-secondary">
   <p class="max-w-screen-2xl mx-auto px-4 pt-8 pb-12 text-xl font-bold text-center">MAKE PAYMENT</p>
   <div class="max-w-screen-2xl mx-auto px-4 pb-8 lg:flex lg:space-x-12">
     <div style="flex: 2;">
@@ -40,7 +50,9 @@
           <p>{{order.email}}</p>
           <p>{{order.phone_number}}</p>
           {% if order.order_notes %}
-          <strong>Order Note:</strong> {{order.order_notes}}
+          <p class="mt-1">
+            <strong>Order Note:</strong> {{order.order_notes}}
+          </p>
           {% endif %}
         </div>
         <p class="mt-4 pb-0 5 text-lg font-bold border-b border-secondary2">ORDERED PRODUCTS</p>

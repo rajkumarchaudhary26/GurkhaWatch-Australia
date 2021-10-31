@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load mathfilters %}
 
 {% block head %}
 <title>Single Product - Gurkha Watch</title>
@@ -13,19 +13,89 @@
   input[type=number] {
     -moz-appearance: textfield;
   }
+
+  .tab-link.current {
+    color: #dededf;
+    border-bottom: 2px solid #dededf;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.current {
+    display: flex;
+  }
+
+  .desc-ul-wrapper ul {
+    list-style: disc;
+  }
+
+  .desc-ul-wrapper ul li {
+    margin-bottom: 0.125rem;
+  }
+
+  .rate>input {
+    display: none;
+  }
+
+  .rate {
+    display: inline-block;
+  }
+
+  .rate>label {
+    float: right;
+  }
+
+  .rate>label::before {
+    display: inline-block;
+    font-size: 1rem;
+    font-family: FontAwesome;
+    content: "\f005";
+    margin: 0;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+  }
+
+  .rate .half:before {
+    content: "\f089";
+    position: absolute;
+    padding-right: 0;
+  }
+
+  input:checked~label,
+  label:hover~label {
+    color: #059669;
+  }
+
+  input:checked+label:hover,
+  input:checked~label:hover,
+  input:checked~label:hover~label,
+  label:hover~input:checked~label {
+    color: #047857;
+  }
+
+  .rating-star i {
+    color: #059669 !important;
+  }
 </style>
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/xzoom/dist/xzoom.css">
-<link rel="stylesheet" href="{% static 'css/custom.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock head %}
 
 {% block content %}
 <!-- Single product start -->
 <div class="bg-primary2 text-secondary">
-  <div class="max-w-screen-2xl mt-4 mx-auto px-4">
+  <div class="max-w-screen-lg mt-4 mx-auto px-4">
     <div class="flex flex-col sm:flex-row space-y-5 sm:space-x-10 lg:space-x-20">
       <div class="flex flex-col items-center sm:items-end space-y-4 flex-1">
-        <div class="max-w-md">
+        <div class="max-w-md relative">
+          {% if single_product.discount %}
+          <span
+            class="px-1.5 py-0.5 absolute top-0 left-0 text-xs transform -translate-x-1.5 -translate-y-1.5 bg-red-500 rounded-md"
+            style="z-index: 100;">
+            {{single_product.discount_percent|floatformat}}% OFF
+          </span>
+          {% endif %}
           <!-- Main product image -->
           <img src="{{single_product.image.url}}" alt="{{single_product.product_name}}" id="main_image" class="xzoom"
             xoriginal="{{single_product.image.url}}" />
@@ -49,8 +119,8 @@
       <div class="text-secondary4 flex-1">
         <p class="text-xs">{{single_product.product_name|upper}}</p>
         <h2 class="text-xl">{{single_product.product_name|upper}}</h2>
-        <div class="rating-star">
-          <span>
+        <div class="rating-star mt-1 text-xs text-green-700">
+          <span class="mr-1">
             <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}"
               aria-hidden="true"></i>
             <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}"
@@ -61,11 +131,26 @@
               aria-hidden="true"></i>
             <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}"
               aria-hidden="true"></i>
-            <span>{{single_product.countReview}} reviews</span>
+          </span>
+          <span class="text-secondary3">
+            ({{single_product.countReview}} reviews)
           </span>
         </div>
-        <p class="text-xl">AUD ${{single_product.price}}</p>
+        <div class="mt-4 flex space-x-2">
+          {% if single_product.discount_percent %}
+          <p class="text-xl text-secondary3 line-through">AU ${{single_product.price|div:100|stringformat:'.2f'}}</p>
+          <p class="text-xl">AU ${{single_product.discount|div:100|stringformat:'.2f'}}</p>
+          {% else %}
+          <p class="text-xl">AU ${{single_product.price|div:100|stringformat:'.2f'}}</p>
+          {% endif %}
+        </div>
+        {% if single_product.stock <= 0 %}
+        <div class="my-4 text-sm text-red-500">
+          <span>OUT OF STOCK</span>
+        </div>
+        {% else %}
         <div class="my-4 flex items-center space-x-4">
+          {% if not in_cart %}
           <div class="flex flex-col">
             <button type="button" onclick="incrementItemCartCount()">
               <i class="fa fa-angle-up"></i>
@@ -76,41 +161,43 @@
               <i class="fa fa-angle-down"></i>
             </button>
           </div>
-          {% if single_product.stock <= 0 %} <h5>OUT OF STOCK</h5>
-            {% else %}
-            {% if in_cart %}
-            <a href="#" class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">ADDED TO CART</a>
-            <a href="{% url 'cart' %}" class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">VIEW
-              CART</a>
-            {% else %}
-            <a href="{% url 'add_cart' single_product.id %}"
-              class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">ADD TO CART</a>
-            {% endif %}
-            {% endif %}
+          {% endif %}
+          {% if in_cart %}
+          <span class="font-bold text-xs text-secondary">ADDED TO CART</span>
+          <a href="{% url 'cart' %}" class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">VIEW
+            CART</a>
+          {% else %}
+          <a href="{% url 'add_cart' single_product.id %}"
+            class="px-8 py-1 font-bold text-xs text-primary bg-secondary rounded-md">ADD TO CART</a>
+          {% endif %}
         </div>
-        <div class="text-xs">
+        {% endif %}
+        <div class="desc-ul-wrapper pl-4 text-xs">
           {{single_product.description|safe}}
-          {% comment %}
-          <p class="mb-0.5"><i class="fas fa-truck fa-sm mr-0.5"></i> FREE SHIPPING</p>
-          <P class="mb-0.5"><i class="fas fa-calendar-check mr-1"></i> 14 DAYS EASY RETURN</P>
-          <P class="mb-0.5"><i class="fas fa-certificate mr-1"></i> 3 YEARS INTERNATIONAL WARRANTY</P>
-          <P class="mb-0.5"><i class="fas fa-clock mr-1"></i> ORDER BEFORE 3:00PM FOR SAME DAY DISPATCH</P>
-          {% endcomment %}
         </div>
       </div>
     </div>
     <div class="my-8">
-      <p>Description</p>
-      <div class="h-px mt-1.5 mb-6 bg-secondary2 rounded-sm"></div>
-      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-10 lg:space-x-20">
+      <ul class="tabs list-none">
+        <li class="tab-link current mr-2 inline-block cursor-pointer text-secondary2" data-tab="tab-1">Description</li>
+        <li class="tab-link inline-block cursor-pointer text-secondary2" data-tab="tab-2">Reviews
+          ({{single_product.countReview}})</li>
+      </ul>
+      <div class="h-px mt-1.5 mb-3 bg-primary5 rounded-sm relative bottom-1.5"></div>
+      <!-- Description tab start -->
+      <div class="tab-content current flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-10 lg:space-x-20"
+        id="tab-1">
+        {% if single_product.specification %}
         <div class="flex-1 flex justify-center sm:justify-end">
           <div class="max-w-md">
-            <img src="{{single_product.specification.url}}" alt="{{single_product.product_name}}"
+            <img src="{{single_product.specification.url}}" alt="{{single_product.product_name}} specification"
               class="object-contain">
           </div>
         </div>
+        {% endif %}
         <div class="flex-1">
-          <h2 class="mb-2">SPECIFICATIONS</h2>
+          <h2 class="mb-2 text-sm">SPECIFICATIONS</h2>
+          {% comment "uncomment after specs is complete" %}
           <table class="w-full text-xs border-collapse">
             <tr>
               <td class="p-1">CASE MATERIAL</td>
@@ -149,8 +236,111 @@
               <td class="p-1">RESET</td>
             </tr>
           </table>
+          {% endcomment %}
         </div>
       </div>
+      <!-- Description tab end -->
+      <!-- Reviews tab start -->
+      <div class="tab-content" id="tab-2">
+        <div class="flex-1">
+          <form action="{% url 'submit_review' single_product.id %}" method="POST" class="w-full text-sm">
+            {% csrf_token %}
+            <p class="mb-3 text-base">Write Your Review</p>
+            <div class="mb-3">
+              <label>How do you rate this product?</label>
+              <br>
+              <div class="rate">
+                <input type="radio" name="rating" id="rating10" value='5' required><label for="rating10"
+                  title="5"></label>
+                <input type="radio" name="rating" id="rating9" value='4.5' required><label for="rating9" title="4.5"
+                  class="half"></label>
+                <input type="radio" name="rating" id="rating8" value='4' required><label for="rating8"
+                  title="4"></label>
+                <input type="radio" name="rating" id="rating7" value='3.5' required><label for="rating7" title="3.5"
+                  class="half"></label>
+                <input type="radio" name="rating" id="rating6" value='3' required><label for="rating6"
+                  title="3"></label>
+                <input type="radio" name="rating" id="rating5" value='2.5' required><label for="rating5" title="2.5"
+                  class="half"></label>
+                <input type="radio" name="rating" id="rating4" value='2' required><label for="rating4"
+                  title="2"></label>
+                <input type="radio" name="rating" id="rating3" value='1.5' required><label for="rating3" title="1.5"
+                  class="half"></label>
+                <input type="radio" name="rating" id="rating2" value='1' required><label for="rating2"
+                  title="1"></label>
+                <input type="radio" name="rating" id="rating1" value='0.5' required><label for="rating1" title="0.5"
+                  class="half"></label>
+              </div>
+            </div>
+            <div class="mb-3 flex flex-col">
+              <label class="mb-1">Review Title</label>
+              <input type="text" required placeholder="Enter Review Title" name="subject"
+                class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
+            </div>
+            <div class="mb-3 flex flex-col">
+              <label class="mb-1">Review</label>
+              <textarea required rows="6" placeholder="Enter Review" name="review"
+                class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"></textarea>
+            </div>
+            <div class="mt-6 mb-3 flex justify-end">
+              {% if user.is_authenticated %}
+              {% if orderproduct %}
+              <button type="submit"
+                class="py-2 px-6 bg-primary5 hover:bg-primary6 text-secondary2 rounded-lg transition-all">Submit
+                Review</button>
+              {% else %}
+              <p class="text-secondary3">You must purchase this product to post review(s).</p>
+              {% endif %}
+              {% else %}
+              <p class="text-secondary3">You must be logged in to post review(s).&nbsp;<a href="{% url 'login' %}"
+                  class="text-green-800 hover:underline">Login Now</a></p>
+              {% endif %}
+            </div>
+          </form>
+          <div>
+            <p>Customer Reviews</p>
+            <div class="mt-1 mb-4 text-xs text-green-700">
+              <span class="mr-1">
+                <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}"
+                  aria-hidden="true"></i>
+              </span>
+              <span class="text-secondary3">
+                ({{single_product.countReview}} reviews)
+              </span>
+            </div>
+            {% for review in reviews %}
+            <div class="mb-4 text-xs">
+              <p class="text-sm">{{review.user.fullname}}&nbsp;&nbsp;<span
+                  class="text-secondary2">-</span>&nbsp;&nbsp;<span
+                  class="text-secondary2 text-xs">{{review.updated_at}}</span></p>
+              <p class="text-green-700">
+                <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}"
+                  aria-hidden="true"></i>
+              </p>
+              <p>{{review.subject}}</p>
+              <p>{{review.review}}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <!-- Reviews tab end -->
     </div>
   </div>
 </div>
@@ -166,15 +356,40 @@
     <div class="similar-products-carousel">
       {% for similar_product in similar_products %}
       <div class="p-3">
-        <div>
-          <a href="/products/product-slug" class="h-60 mb-2 block overflow-hidden">
-            <img src="/static/images/g200.jpg" alt="Watch"
+        <div class="relative">
+          {% if similar_product.discount %}
+          <span
+            class="px-1.5 py-0.5 absolute top-0 left-0 text-xs transform -translate-x-1 -translate-y-1/2 bg-red-500 rounded-md"
+            style="z-index: 100;">
+            {{similar_product.discount_percent|floatformat}}% OFF
+          </span>
+          {% endif %}
+          {% if similar_product.stock <= 0 %}
+          <span
+            class="px-2 py-1 absolute top-1/3 left-1/2 text-xs text-center font-bold text-red-500 border uppercase border-red-500 transform -rotate-12 -translate-x-1/2 rounded-md"
+            style="z-index: 100;">
+            Out Of Stock
+          </span>
+          {% endif %}
+          <a href="{{similar_product.get_url}}" class="h-60 mb-2 block overflow-hidden">
+            <img src="{{similar_product.image.url}}" alt="{{similar_product.product_name}}"
               class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
           </a>
-          <p class="text-golden text-center text-xs">G200-MIX EDITION</p>
-          <p class="text-secondary text-center text-sm">G200-MIX EDITION</p>
+          <p class="text-golden text-center text-xs">{{similar_product.product_name|upper}}</p>
+          <a href="{{similar_product.get_url}}"
+            class="block text-secondary text-center text-sm transition-all hover:text-secondary3">{{similar_product.product_name|upper}}</a>
           <div class="h-0.5 my-1 bg-secondary2"></div>
-          <p class="text-secondary text-center text-sm">AU $170</p>
+          <div class="flex justify-center items-center space-x-2">
+            {% if similar_product.discount %}
+            <p class="text-secondary3 text-center text-sm line-through">AU
+              ${{similar_product.price|div:100|stringformat:'.2f'}}</p>
+            <p class="text-secondary text-center text-sm">AU
+              ${{similar_product.discount|div:100|stringformat:'.2f'}}</p>
+            {% else %}
+            <p class="text-secondary text-center text-sm">AU ${{similar_product.price|div:100|stringformat:'.2f'}}
+              {% endif %}
+            </p>
+          </div>
         </div>
       </div>
       {% endfor %}
@@ -182,88 +397,6 @@
   </div>
 </div>
 <!-- Similar products end -->
-<!-- Review and Ratings -->
-<form action="{% url 'submit_review' single_product.id %}" method="POST">
-  {% csrf_token %}
-  <h5>Write Your Review</h5>
-  {{single_product.averageReview}}
-  <div>
-    <!-- Rating Stars -->
-    <label>How do you rate this product?</label>
-    <br>
-    <div class="rate">
-      <input type="radio" name="rating" id="rating10" value='5' required><label for="rating10" title="5"></label>
-      <input type="radio" name="rating" id="rating9" value='4.5' required><label for="rating9" title="4.5"
-        class="half"></label>
-      <input type="radio" name="rating" id="rating8" value='4' required><label for="rating8" title="4"></label>
-      <input type="radio" name="rating" id="rating7" value='3.5' required><label for="rating7" title="3.5"
-        class="half"></label>
-      <input type="radio" name="rating" id="rating6" value='3' required><label for="rating6" title="3"></label>
-      <input type="radio" name="rating" id="rating5" value='2.5' required><label for="rating5" title="2.5"
-        class="half"></label>
-      <input type="radio" name="rating" id="rating4" value='2' required><label for="rating4" title="2"></label>
-      <input type="radio" name="rating" id="rating3" value='1.5' required><label for="rating3" title="1.5"
-        class="half"></label>
-      <input type="radio" name="rating" id="rating2" value='1' required><label for="rating2" title="1"></label>
-      <input type="radio" name="rating" id="rating1" value='0.5' required><label for="rating1" title="0.5"
-        class="half"></label>
-    </div>
-    <br>
-    Review Title:
-    <input type="text" name="subject" class="" required>
-    <br>
-    Review:
-    <textarea name="review" id="" rows="4" class=""></textarea>
-    <br>
-    {% if user.is_authenticated %}
-    {% if orderproduct %}
-    <input type="submit" value="Submit Review" class="">
-    {% else %}
-    <p>You must purchase this product to post review(s).</p>
-    {% endif %}
-    {% else %}
-    <p>You must be logged in to post review(s). <span><a href="{% url 'login' %}">Login Now</a></span></p>
-    {% endif %}
-
-  </div>
-</form>
-<br>
-<h3>Customer Reviews</h3>
-<div class="rating-star">
-  <span>
-    <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}"
-      aria-hidden="true"></i>
-    <span>{{single_product.countReview}} reviews</span>
-  </span>
-</div>
-{% for review in reviews %}
-<p>{{review.updated_at}}</p>
-<h6>{{review.user.fullname}}</h6>
-<div class="rating-star">
-  <span>
-    <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}"
-      aria-hidden="true"></i>
-    <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}"
-      aria-hidden="true"></i>
-  </span>
-</div>
-<h6>{{review.subject}}</h6>
-<p>{{review.review}}</p>
-{% endfor %}
 {% endblock content %}
 
 {% block scripts %}
@@ -279,39 +412,50 @@
       autoplay: true,
       autoplaySpeed: 2500,
       responsive: [{
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          infinite: true,
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 640,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 500,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
+        {
+          breakpoint: 500,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
       ],
     });
+
+    $(".tabs .tab-link").click(function () {
+      var tab_id = $(this).attr("data-tab");
+
+      $(".tabs .tab-link").removeClass("current");
+      $(".tab-content").removeClass("current");
+
+      $(this).addClass("current");
+      $("#" + tab_id).addClass("current");
+    });
+
   });
 </script>
 

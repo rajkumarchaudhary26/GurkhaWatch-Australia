@@ -1,7 +1,22 @@
-{% if payment_status == 'success' %}
-<p>Order Confirmed</p>
-<p>Your order is confirmed with order id: <span></span></p>
-<p>Current Order Status: <span>order progress</span></p>
-{% else %}
-<p>Something went wrong. Please try again.</p>
-{% endif %}
+{% extends "base.html" %}
+
+{% block head %}
+<title>Payment Status</title>
+{% endblock head %}
+
+{% block content %}
+<div class="bg-primary2 text-secondary">
+    <div class="max-w-screen-lg mx-auto mt-4 mb-8 px-4">
+        {% if payment_status == 'success' %}
+        <p class="mb-2 text-lg font-bold">Order Confirmed</p>
+        <p>Your order is confirmed with order id: <span></span></p>
+        <p>Current Order Status: <span>Order Progress</span></p>
+        <a href="/shop"
+            class="inline-block mt-6 px-4 py-1 bg-secondary hover:bg-secondary4 text-primary rounded-md font-bold transition-all">Continue
+            Shopping</a>
+        {% else %}
+        <p>Something went wrong, Please try again!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

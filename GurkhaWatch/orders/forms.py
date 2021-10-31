@@ -22,7 +22,10 @@ class OrderForm(forms.ModelForm):
         self.fields['state'].widget.attrs['placeholder'] = 'Enter State'
         self.fields['city'].widget.attrs['placeholder'] = 'Enter City'
         self.fields['postal_code'].widget.attrs['placeholder'] = 'Enter Postal Code'
-        self.fields['order_notes'].widget.attrs['placeholder'] = 'Enter Order Notes'
+        self.fields['order_notes'].widget.attrs = {
+            'placeholder': 'Enter Order Notes',
+            'rows': '4'
+        }
         # this class name applies to every field of the given registration form
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none'

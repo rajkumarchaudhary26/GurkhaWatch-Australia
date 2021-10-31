@@ -3,29 +3,30 @@
 {% block head %}
 <title>Category - Gurkha Watch</title>
 <style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 </style>
 {% endblock head %}
 
 {% block content %}
 <div class="bg-primary2 text-secondary">
-  <div class="max-w-screen-2xl mx-auto px-4 py-20 flex space-x-24">
-    <div>
+  <div class="max-w-screen-2xl mt-4 mb-8 mx-auto px-4 lg:flex lg:space-x-24">
+    <div class="hidden lg:block">
       {% include "includes/categories.html" with categories=categories %}
     </div>
     <div class="flex-1">
-      <div class="mb-8 flex justify-between items-center">
+      <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
         <span class="text-sm text-secondary3">Showing 1-12 of 55</span>
-        <select name="sorting" class="px-3 py-1 bg-primary5 text-sm rounded-md focus:outline-none cursor-pointer"
-          style="padding-inline-end: 1rem;">
+        <select name="sorting"
+          class="w-full px-1.5 py-1 bg-primary5 text-sm rounded-md focus:outline-none cursor-pointer"
+          style="max-width: 14rem;">
           <option selected>Relevance</option>
           <option>Sort by popularity</option>
           <option>Sort by average rating</option>
@@ -34,7 +35,7 @@
           <option>Sort by price high to low</option>
         </select>
       </div>
-      <div class="grid gap-16 grid-cols-3">
+      <div class="grid gap-10 sm:gap-12 lg:gap-14 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
         {% for product in products %}
         <div class="relative">
           <span
@@ -42,14 +43,21 @@
             style="z-index: 100;">
             20% OFF
           </span>
-          <a href="#!" class="h-80 mb-2 block overflow-hidden">
+          <a href="#!" class="h-80 mb-2 block overflow-hidden bg-primary4">
             <img src="/static/images/g200.jpg" alt="Watch"
               class="h-full w-full object-cover transform hover:rotate-30 hover:scale-150 transition duration-500">
           </a>
-          <p class="text-golden text-center text-xs">G200-MIX EDITION</p>
-          <p class="text-secondary text-center text-sm">G200-MIX EDITION</p>
+          <p class="text-golden text-center text-xs">MENS WATCHES</p>
+          <a href="/products/product-slug" class="block text-secondary text-center text-sm">G200-MIX EDITION</a>
           <div class="h-0.5 my-1 bg-secondary2"></div>
-          <p class="text-secondary text-center text-sm">AU $170</p>
+          <div class="flex justify-center items-center space-x-2">
+            <p class="text-secondary3 text-center text-sm line-through">AUD $170.00</p>
+            <p class="text-secondary text-center text-sm">AUD $144.50</p>
+            <!-- uncomment if discount not present -->
+            {% comment %}
+            <p class="text-secondary text-center text-sm">AUD $170</p>
+            {% endcomment %}
+          </div>
         </div>
         {% endfor %}
       </div>
