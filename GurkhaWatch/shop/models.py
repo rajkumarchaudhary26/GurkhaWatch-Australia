@@ -17,8 +17,9 @@ class Product(models.Model):
     discount_percent = models.FloatField(default=0)
     image = models.ImageField(upload_to='photos/products', )
     stock = models.IntegerField()
-    specification = models.ImageField(
-        upload_to='photos/products/specifications', )
+    specification_image = models.ImageField(
+        upload_to='photos/products/specifications', blank=True)
+    specification = models.TextField()
     is_available = models.BooleanField(default=True)
     category = models.ManyToManyField(Category, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)

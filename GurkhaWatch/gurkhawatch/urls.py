@@ -23,12 +23,11 @@ from carts import views as cart_views
 from django.conf.urls.static import static
 from django.conf import settings
 from blog import views as blog_views
-from productslider import views as productslider_views
 
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('securelogin/', admin.site.urls),
-    path('', productslider_views.product_slider, name='home'),
+    path('', gurkhawatch_views.home, name='home'),
     path('about/', gurkhawatch_views.about, name='about'),
     path('contact/', gurkhawatch_views.contact, name='contact'),
     path('shop/', shop_views.shop, name='shop'),

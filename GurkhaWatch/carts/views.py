@@ -93,6 +93,7 @@ def remove_cart_item(request, product_id):
 def cart(request, total=0, quantity=0, cart_items=None):
     try:
         grand_total = 0
+        service_charge = 0
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(
                 user=request.user, is_active=True)
@@ -100,10 +101,13 @@ def cart(request, total=0, quantity=0, cart_items=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+            if cart_item.product.discount_percent > 0:
+                total += (cart_item.product.discount() * cart_item.quantity)
+            else:
+                total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        #shipping = ()
-        grand_total = total
+        service_charge = int((10 * round(total, 2))/100)
+        grand_total = total + service_charge
     except ObjectDoesNotExist:
         pass  # ignore
 
@@ -111,6 +115,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
         "total": total,
         "quantity": quantity,
         "cart_items": cart_items,
+        "service_charge": service_charge,
         "grand_total": grand_total,
     }
     return render(request, 'cart.html', context)
@@ -120,25 +125,29 @@ def cart(request, total=0, quantity=0, cart_items=None):
 def checkout(request, total=0, quantity=0, cart_items=None):
     try:
         grand_total = 0
+        service_charge = 0
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(
                 user=request.user, is_active=True)
         else:
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
-        # cart = Cart.objects.get(cart_id = _cart_id(request))
-        # cart_items = CartItem.objects.filter(cart = cart, is_active = True)
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+            if cart_item.product.discount_percent > 0:
+                total += (cart_item.product.discount() * cart_item.quantity)
+            else:
+                total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        #shipping = ()
-        grand_total = total
+        service_charge = int((10 * round(total, 2))/100)
+        grand_total = total + service_charge
     except ObjectDoesNotExist:
         pass
+
     context = {
         "total": total,
         "quantity": quantity,
         "cart_items": cart_items,
+        "service_charge": service_charge,
         "grand_total": grand_total,
         "form": OrderForm,
 

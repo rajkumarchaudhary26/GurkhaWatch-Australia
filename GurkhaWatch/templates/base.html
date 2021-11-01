@@ -67,7 +67,7 @@
         <i class="mr-1 fas fa-shopping-cart"></i>
         <div class="flex flex-col justify-center">
           <span>{{cart_count}} Items</span>
-          <span>${{grand_total}}</span>
+          <!-- <span>${{grand_total}}</span> -->
         </div>
       </a>
     </div>
@@ -171,13 +171,13 @@
         <a href="/product-category/accessories/" onclick="closeMobileNav()">Accessories</a>
       </div>
       <div class="mx-4 px-1 py-2 border-b border-secondary2">
-        <a href="/product-category/upcoming-watches" onclick="closeMobileNav()">Upcoming</a>
+        <a href="/product-category/upcoming-watches/" onclick="closeMobileNav()">Upcoming</a>
       </div>
       <div class="mx-4 px-1 py-2 border-b border-secondary2">
-        <a href="/contact/" onclick="closeMobileNav()">Contact Us</a>
+        <a href="{% url 'contact' %}" onclick="closeMobileNav()">Contact Us</a>
       </div>
       <div class="mx-4 px-1 py-2 border-b border-secondary2">
-        <a href="/about/" onclick="closeMobileNav()">About Us</a>
+        <a href="{% url 'about' %}" onclick="closeMobileNav()">About Us</a>
       </div>
       <div class="mx-4 px-1 py-2 border-b border-secondary2">
         <a href="{% url 'blog' %}" onclick="closeMobileNav()">Blog</a>
@@ -216,8 +216,8 @@
       </a>
       <div class="flex-1 flex justify-start items-center space-x-6">
         <a href="/product-category/upcoming-watches/" class="text-center">UPCOMING</a>
-        <a href="/contact/" class="text-center">CONTACT US</a>
-        <a href="/about/" class="text-center">ABOUT US</a>
+        <a href="{% url 'contact' %}" class="text-center">CONTACT US</a>
+        <a href="{% url 'about' %}" class="text-center">ABOUT US</a>
         <a href="{% url 'blog' %}" class="text-center">BLOG</a>
         <button onclick="openSearchBar()">
           <i class="fas fa-search"></i>
@@ -251,6 +251,7 @@
       <div class="flex-1 text-secondary">
         <p class="mb-2">TOP RATED PRODUCTS</p>
         <div class="flex flex-col space-y-4 text-sm font-bold">
+          {% for i in '1234' %}
           <a href="#!" class="flex items-center">
             <div class="h-16 w-16 mr-3 bg-black"></div>
             <div>
@@ -262,37 +263,10 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
               </div>
-              <p class="mt-1">AU $20</p>
+              <p class="mt-1">AU $49.00</p>
             </div>
           </a>
-          <a href="#!" class="flex items-center">
-            <div class="h-16 w-16 mr-3 bg-black"></div>
-            <div>
-              <p>GURKHA BADGE</p>
-              <div class="mt-1 flex text-green-700">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <p class="mt-1">AU $20</p>
-            </div>
-          </a>
-          <a href="#!" class="flex items-center">
-            <div class="h-16 w-16 mr-3 bg-black"></div>
-            <div>
-              <p>GURKHA BADGE</p>
-              <div class="mt-1 flex text-green-700">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <p class="mt-1">AU $20</p>
-            </div>
-          </a>
+          {% endfor %}
         </div>
       </div>
       <div class="flex-1 text-secondary">

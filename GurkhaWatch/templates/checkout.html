@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 
 {% block head %}
 <title>Checkout - Gurkha Watch</title>
@@ -68,7 +69,8 @@
         </div>
         <div class="mb-4 flex flex-col">
           <label class="mb-1">Street Address</label>
-          {{form.street_address}}
+          {{form.address_line_1}}
+          {{form.address_line_2}}
         </div>
         <div class="mb-4 flex flex-col">
           <label class="mb-1">Order Notes (Optional)</label>
@@ -85,30 +87,38 @@
               Order Total ({{cart_count}} Items)
             </td>
             <td>
-              ${{total}}
+              AU ${{total|div:100|stringformat:'.2f'}}
             </td>
           </tr>
-          <tr class="border-b border-secondary2">
+          <tr>
             <td>
               Shipping
             </td>
             <td>
-              $0
+              AU $0
+            </td>
+          </tr>
+          <tr class="border-b border-secondary2">
+            <td>
+              Service Charge
+            </td>
+            <td>
+              AU ${{service_charge|div:100|stringformat:'.2f'}}
             </td>
           </tr>
         </tbody>
         <tfoot class="text-sm font-bold">
           <tr>
             <td>Total</td>
-            <td>${{grand_total}}</td>
+            <td>AU ${{grand_total|div:100|stringformat:'.2f'}}</td>
           </tr>
         </tfoot>
       </table>
       <div class="flex justify-center space-x-1.5">
         <i class="fab fa-cc-visa fa-2x"></i>
-        <i class="fab fa-cc-paypal fa-2x"></i>
         <i class="fab fa-cc-mastercard fa-2x"></i>
         <i class="fab fa-cc-amex fa-2x"></i>
+        <i class="fab fa-cc-discover fa-2x"></i>
       </div>
       <div class="mt-2 flex items-center space-x-1">
         <input type="checkbox" required />

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 
 {% block head %}
 <title>Cart - Gurkha Watch</title>
@@ -82,7 +83,7 @@
               </form>
             </td>
             <td>
-              AUD ${{cart_item.sub_total}}
+              AU ${{cart_item.sub_total|div:100|stringformat:'.2f'}}
             </td>
           </tr>
           {% endfor %}
@@ -101,22 +102,30 @@
                 Order Total ({{cart_count}} Items)
               </td>
               <td>
-                AU ${{total}}
+                AU ${{total|div:100|stringformat:'.2f'}}
               </td>
             </tr>
-            <tr class="border-b border-secondary2">
+            <tr>
               <td>
                 Shipping
               </td>
               <td>
-                $0
+                AU $0
+              </td>
+            </tr>
+            <tr class="border-b border-secondary2">
+              <td>
+                Service Charge
+              </td>
+              <td>
+                AU ${{service_charge|div:100|stringformat:'.2f'}}
               </td>
             </tr>
           </tbody>
           <tfoot class="text-sm font-bold">
             <tr>
               <td>Grand Total</td>
-              <td>${{grand_total}}</td>
+              <td>AU ${{grand_total|div:100|stringformat:'.2f'}}</td>
             </tr>
           </tfoot>
         </table>

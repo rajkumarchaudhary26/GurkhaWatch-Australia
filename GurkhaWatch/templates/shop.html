@@ -41,7 +41,7 @@
                 {% if products %}
                 {% for product in products %}
                 <div class="relative">
-                    {% if product.discount %}
+                    {% if product.discount_percent > 0 %}
                     <span
                         class="px-1.5 py-0.5 absolute top-0 left-0 text-xs transform -translate-x-1 -translate-y-1/2 bg-red-500 rounded-md"
                         style="z-index: 100;">
@@ -57,11 +57,14 @@
                         class="block text-secondary text-center text-sm">{{product.product_name|upper}}</a>
                     <div class="h-0.5 my-1 bg-secondary2"></div>
                     <div class="flex justify-center items-center space-x-2">
-                        {% if product.discount_percent %}
-                        <p class="text-secondary3 text-center text-sm line-through">AU ${{product.price|div:100|stringformat:'.2f'}}</p>
-                        <p class="text-secondary text-center text-sm">AU ${{product.discount|div:100|stringformat:'.2f'}}</p>
+                        {% if product.discount_percent > 0 %}
+                        <p class="text-secondary3 text-center text-sm line-through">AU
+                            ${{product.price|div:100|stringformat:'.2f'}}</p>
+                        <p class="text-secondary text-center text-sm">AU
+                            ${{product.discount|div:100|stringformat:'.2f'}}</p>
                         {% else %}
-                        <p class="text-secondary text-center text-sm">AU ${{product.price|div:100|stringformat:'.2f'}}</p>
+                        <p class="text-secondary text-center text-sm">AU ${{product.price|div:100|stringformat:'.2f'}}
+                        </p>
                         {% endif %}
                     </div>
                 </div>

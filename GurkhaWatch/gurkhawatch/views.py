@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from shop.models import Product
 from category.models import Category
+from productslider.models import ProductSlider
 
 categories = [
     {
@@ -52,10 +53,12 @@ def home(request):
 
 
 def home(request):
+    sliders = ProductSlider.objects.all()
     products = Product.objects.all().filter(is_available=True)
     collections = Category.objects.all()
 
-    context = {'best_selling_products': products, 'collections': collections}
+    context = {'best_selling_products': products,
+               'collections': collections, 'sliders': sliders}
     return render(request, 'index.html', context)
 
 
@@ -63,24 +66,28 @@ def about(request):
     return render(request, 'about.html')
 
 
-def blog(request):
-    return render(request, 'blog.html')
-
-
 def contact(request):
     return render(request, 'contact.html')
 
 
-def shop(request):
-    return render(request, 'shop.html', {
-        'categories': categories,
-        'products': list(range(1, 8))
-    })
+def upcoming_watches(request):
+    return render(request, 'upcoming_watches.html')
 
 
-def category(request, slug):
-    return render(request, 'category.html', {
-        'title': slug,
-        'categories': categories,
-        'products': list(range(1, 8))
-    })
+def accessories(request):
+    return render(request, 'accessories.html')
+
+
+# def shop(request):
+#     return render(request, 'shop.html', {
+#         'categories': categories,
+#         'products': list(range(1, 8))
+#     })
+
+
+# def category(request, slug):
+#     return render(request, 'category.html', {
+#         'title': slug,
+#         'categories': categories,
+#         'products': list(range(1, 8))
+#     })

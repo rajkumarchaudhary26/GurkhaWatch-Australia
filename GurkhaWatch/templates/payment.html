@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 
 {% block head %}
 <title>Make Payment - Gurkha Watch</title>
@@ -44,9 +45,9 @@
         <p class="mb-2 pb-0.5 text-lg font-bold border-b border-secondary2">BILLING DETAILS</p>
         <div>
           <p>{{order.first_name}} {{order.last_name}}</p>
-          <p>{{order.street_address}}</p>
-          <p>{{order.city}}, {{order.state}}</p>
-          <p>{{order.country}}</p>
+          <p>{{order.address_line_1}}</p>
+          <p>{{order.address_line_2}}</p>
+          <p>{{order.city}}, {{order.state}}, {{order.country}}</p>
           <p>{{order.email}}</p>
           <p>{{order.phone_number}}</p>
           {% if order.order_notes %}
@@ -89,7 +90,7 @@
                 </form>
               </td>
               <td>
-                AUD ${{cart_item.sub_total}}
+                AU ${{cart_item.sub_total|div:100|stringformat:'.2f'}}
               </td>
             </tr>
             {% endfor %}
@@ -106,35 +107,41 @@
               Order Total ({{cart_count}} Items)
             </td>
             <td>
-              AU ${{total}}
+              AU ${{total|div:100|stringformat:'.2f'}}
             </td>
           </tr>
-          <tr class="border-b border-secondary2">
+          <tr>
             <td>
               Shipping
             </td>
             <td>
-              $0
+              AU $0
+            </td>
+          </tr>
+          <tr class="border-b border-secondary2">
+            <td>
+              Service Charge
+            </td>
+            <td>
+              AU ${{service_charge|div:100|stringformat:'.2f'}}
             </td>
           </tr>
         </tbody>
         <tfoot class="text-sm font-bold">
           <tr>
             <td>Grand Total</td>
-            <td>${{grand_total}}</td>
+            <td>AU ${{grand_total|div:100|stringformat:'.2f'}}</td>
           </tr>
         </tfoot>
       </table>
-
       <form action="{% url 'create-checkout-session' %}" method="POST">
         {% csrf_token %}
-        <input type="hidden" name="order-id" value="{{order.id}}">
+        <input type="hidden" name='order-id' value="{{order.id}}">
         <button
           class="w-full mt-2 px-4 py-1 block bg-secondary hover:bg-secondary4 text-primary text-center rounded-md font-bold">
           Pay with Card
         </button>
       </form>
-
     </div>
   </div>
 </div>

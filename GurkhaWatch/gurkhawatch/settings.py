@@ -29,7 +29,7 @@ SECRET_KEY = config(
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 'gurkhawatch.pontoonads.com', 'gurkhawatch.com.au']
+                 'gurkhawatch.pontoonads.com', 'gurkha.com.au']
 
 
 # Application definition
@@ -76,9 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # to use menu links or category links any template we want
-                'category.context_processors.menu_links',
                 'carts.context_processors.counter',
+                'category.context_processors.menu_links',
             ],
         },
     },
