@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from carts.models import CartItem
 from carts.views import _cart_id
-from .forms import ReviewForm
+from .forms import AddToCart, ReviewForm
 from orders.models import OrderProduct
 # Create your views here.
 
@@ -40,39 +40,47 @@ def shop(request, category_slug=None):
 
 
 def product_detail(request, product_slug):
-    try:
-        single_product = Product.objects.get(slug=product_slug)
-        in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(
-            request), product=single_product).exists()
-
-    except Exception as e:
-        raise e
-
-    if request.user.is_authenticated:
+    if request.method == 'GET':
         try:
-            orderproduct = OrderProduct.objects.filter(
-                user=request.user, product_id=single_product.id).exists()
-        except OrderProduct.DoesNotExist:
+            single_product = Product.objects.get(slug=product_slug)
+            in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(
+                request), product=single_product).exists()
+
+        except Exception as e:
+            raise e
+
+        if request.user.is_authenticated:
+            try:
+                orderproduct = OrderProduct.objects.filter(
+                    user=request.user, product_id=single_product.id).exists()
+            except OrderProduct.DoesNotExist:
+                orderproduct = None
+        else:
             orderproduct = None
-    else:
-        orderproduct = None
 
-    # Get the reviews
-    reviews = ReviewRating.objects.filter(
-        product_id=single_product.id, status=True)
+        # Get the reviews
+        reviews = ReviewRating.objects.filter(
+            product_id=single_product.id, status=True)
 
-    # get the product gallery
-    product_gallery = ProductGallery.objects.filter(
-        product_id=single_product.id)
+        # get the product gallery
+        product_gallery = ProductGallery.objects.filter(
+            product_id=single_product.id)
 
-    context = {
-        'single_product': single_product,
-        'in_cart': in_cart,
-        'orderproduct': orderproduct,
-        'reviews': reviews,
-        'product_gallery': product_gallery,
-    }
-    return render(request, 'single_product.html', context)
+        # send GET request from the add to cart button
+        add_to_cart_input_field = AddToCart(request.GET)
+        if add_to_cart_input_field.is_valid():
+            cart_item = CartItem()
+            cart_item.quantity = add_to_cart_input_field.cleaned_data.get(
+                'add_to_cart')
+
+        context = {
+            'single_product': single_product,
+            'in_cart': in_cart,
+            'orderproduct': orderproduct,
+            'reviews': reviews,
+            'product_gallery': product_gallery,
+        }
+        return render(request, 'single_product.html', context)
 
 
 '''

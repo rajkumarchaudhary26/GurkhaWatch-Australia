@@ -15,6 +15,8 @@ from django.views import generic
 from django.urls import reverse
 from .models import Payment
 from gurkhawatch import settings
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -163,6 +165,15 @@ def fulfill_order(request, order_id, stripe_session):
         item.product.save()
 
     cart_items.delete()
+    # send order received email to the customer
+    mail_subject = 'Thank you for your order'
+    message = render_to_string('orders/order_received_email.html', {
+        'user': user,
+        'order': order,
+    })
+    to_email = user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
 
 
 def place_order(request, total=0, quantity=0):

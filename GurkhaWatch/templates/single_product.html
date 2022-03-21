@@ -197,47 +197,15 @@
       </div>
       {% endif %}
       <div class="flex-1">
-        <h2 class="mb-2 text-sm">SPECIFICATIONS</h2>
-        {% comment "uncomment after specs is complete" %}
+        <h2 class="mb-2 text-sm font-bold">SPECIFICATIONS</h2>
         <table class="w-full text-xs border-collapse">
+          {% for i in specification_grouped %}
           <tr>
-            <td class="p-1">CASE MATERIAL</td>
-            <td class="p-1">STAINLESS STEEL</td>
+            <td class="p-1">{{i.0}}</td>
+            <td class="p-1">{{i.1}}</td>
           </tr>
-          <tr>
-            <td class="p-1">STRAP MATERIAL</td>
-            <td class="p-1">GENUINE LEATHER</td>
-          </tr>
-          <tr>
-            <td class="p-1">MOVEMENT</td>
-            <td class="p-1">JAPAN QUARTZ</td>
-          </tr>
-          <tr>
-            <td class="p-1">GLASS</td>
-            <td class="p-1">SAPPHIRE CRYSTAL</td>
-          </tr>
-          <tr>
-            <td class="p-1">WATER RESISTANCE</td>
-            <td class="p-1">100M(10ATM)</td>
-          </tr>
-          <tr>
-            <td class="p-1">CASE DIAMETER</td>
-            <td class="p-1">42MM</td>
-          </tr>
-          <tr>
-            <td class="p-1">CASE THICKNESS</td>
-            <td class="p-1">10MM</td>
-          </tr>
-          <tr>
-            <td class="p-1">PUSHER AT 2 O'CLOCK</td>
-            <td class="p-1">START/STOP THE CHRONOGRAPH</td>
-          </tr>
-          <tr>
-            <td class="p-1">PUSHER AT 4 O'CLOCK</td>
-            <td class="p-1">RESET</td>
-          </tr>
+          {% endfor %}
         </table>
-        {% endcomment %}
       </div>
     </div>
     <!-- Description tab end -->

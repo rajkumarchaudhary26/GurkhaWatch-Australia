@@ -1,7 +1,10 @@
+from django.db.models.fields import EmailField
 from django.shortcuts import render
 from shop.models import Product
 from category.models import Category
 from productslider.models import ProductSlider
+from django.core.mail import send_mail
+from django.contrib import messages
 
 categories = [
     {
@@ -67,7 +70,31 @@ def about(request):
 
 
 def contact(request):
-    return render(request, 'contact.html')
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        send_mail(
+            'Message from ' + first_name + last_name,  # subject
+            message,  # message
+            email,  # from email
+            ['info@gurkhawatch.com'],  # to email
+        )
+
+        context = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'subject': subject,
+            'message': message,
+        }
+        messages.success(
+            request, 'Dear ' + first_name + last_name + ', we have received your message. We will repond shortly.')
+        return render(request, 'contact.html', context)
+    else:
+        return render(request, 'contact.html')
 
 
 def upcoming_watches(request):

@@ -10,6 +10,7 @@
         <p class="mb-1 text-xl font-bold text-center">Contact Us</p>
         <p class="text-sm text-secondary3 text-center">Have a question or inquiry? Leave us a message.</p>
     </div>
+
     <div class="max-w-screen-2xl mx-auto px-4 pb-16 flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-8">
         <div class="px-16 py-20 flex-grow bg-primary3 rounded-3xl">
             <div class="mb-10">
@@ -66,44 +67,46 @@
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-instagram fa-stack-1x text-primary"></i>
                 </a>
-                <a href="https://www.youtube.com/channel/UCVGGHRbhR2A24-jKA9FVOmQ" target="_blank" rel="noreferrer" class="fa-stack">
+                <a href="https://www.youtube.com/channel/UCVGGHRbhR2A24-jKA9FVOmQ" target="_blank" rel="noreferrer"
+                    class="fa-stack">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-youtube fa-stack-1x text-primary"></i>
                 </a>
             </div>
         </div>
-        <form class="text-sm flex-grow">
+        <form action="{% url 'contact' %}" method='POST' class="text-sm flex-grow">
+            {% csrf_token %}
             <div class="mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
                 <div class="flex flex-col flex-1">
                     <label class="mb-1">First Name</label>
-                    <input type="text" placeholder="First Name"
+                    <input type="text" name="first_name" placeholder="First Name"
                         class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
                 </div>
                 <div class="flex flex-col flex-1">
                     <label class="mb-1">Last Name</label>
-                    <input type="text" placeholder="Last Name"
+                    <input type="text" name="last_name" placeholder="Last Name"
                         class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
                 </div>
             </div>
             <div class="mb-4 flex flex-col">
                 <label class="mb-1">E-mail</label>
-                <input type="email" placeholder="E-mail"
+                <input type="email" name="email" placeholder="E-mail"
                     class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
             </div>
             <div class="mb-4 flex flex-col">
                 <label class="mb-1">Subject</label>
-                <input type="text" placeholder="Subject"
+                <input type="text" name='subject' placeholder="Subject"
                     class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none" />
             </div>
             <div class="mb-4 flex flex-col">
                 <label class="mb-1">Message</label>
-                <textarea rows="6" placeholder="Message"
+                <textarea rows="6" placeholder="Message" name="message"
                     class="py-1 px-2 bg-transparent border border-secondary2 rounded-md placeholder-secondary2 outline-none"></textarea>
             </div>
             <div class="mt-8 flex justify-end">
-              <button type="submit" class="py-2 px-6 bg-primary5 hover:bg-primary6 text-secondary2 rounded-lg">
-                Send Message
-              </button>
+                <button type="submit" class="py-2 px-6 bg-primary5 hover:bg-primary6 text-secondary2 rounded-lg">
+                    Send Message
+                </button>
             </div>
         </form>
     </div>
